@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+/* primary color */
+@theme{
+    --color-primary: #BCC2C2;
+    --color-footer: #252222;
+}
+
+.Hover{
+    &:hover{
+        scale: 105%;
+        transition: all 0.3s ease-in-out;
+    }
+}
