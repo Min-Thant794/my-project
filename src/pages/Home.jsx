@@ -7,7 +7,7 @@ const home = () => {
     <div className='bg-primary w-full'>
     <NavBar/>
     This is home page.
-
+asdlfadslfjldsaf
     <Footer/>
     </div>
   )
