@@ -1,4 +1,6 @@
-import { FaFacebook, FaInstagram, FaViber, FaTelegram } from "react-icons/fa";
+import { ImFacebook2 } from "react-icons/im";
+import { FaSquareInstagram, FaViber, FaLinkedin } from "react-icons/fa6";
+import { FaYoutube } from "react-icons/fa";
 
 export const navLinks = [
     {
@@ -27,14 +29,14 @@ export const navLinks = [
     }
 ]
 
-const Facebook = FaFacebook;
-const Instagram = FaInstagram;
-const Viber = FaViber;
-const Telegram = FaTelegram;
+const Facebook = ImFacebook2;
+const Instagram = FaSquareInstagram;
+const Linkedin = FaLinkedin;
+const YouTube = FaYoutube;
 
 export const SocialMediaIcons = [
   {name: "Facebook", icon: Facebook, link: "https://www.facebook.com"},
   {name: "Instagram", icon: Instagram, link: "https://www.instagram.com"},
-  {name: "Viber", icon: Viber, link: "https://www.viber.com"},
-  {name: "Telegram", icon: Telegram, link: "https://www.telegram.org"},
+  {name: "YouTube", icon: YouTube, link: "https://www.youtube.com"},
+  {name: "Linkedin", icon: Linkedin, link: "https://www.linkedin.com"}
 ]

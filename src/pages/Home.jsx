@@ -1,13 +1,21 @@
 import React from 'react'
 import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
+import Carousel from '../components/HomePageCarousel'
+import RideYourBook from '../components/RideYourBook'
+import BestDeals from '../components/BestDeals'
+import FAQs from '../components/FAQs'
+import GetInTouch from '../components/GetInTouch'
 
 const home = () => {
   return (
-    <div className='bg-primary w-full'>
+    <div className='w-full'>
     <NavBar/>
-    This is home page.
-asdlfadslfjldsaf
+    <Carousel/>
+    <RideYourBook/>
+    <BestDeals/>
+    <FAQs/>
+    <GetInTouch/>
     <Footer/>
     </div>
   )
