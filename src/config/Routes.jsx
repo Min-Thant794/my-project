@@ -1,4 +1,4 @@
-import Home from "../pages/home";
+import Home from "../pages/Home";
 import { FaHome, FaUserEdit } from "react-icons/fa";
 import { Navigate } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
@@ -22,7 +22,7 @@ export const routes = [
             {
                 name: "Home",
                 path: "/home",
-                element: <Home/>,
+                elemenet: <Home/>,
                 icon: <FaHome/>
             },
             {
