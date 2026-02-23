@@ -1,14 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { navLinks } from '../constants'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import Logo from '../assets/logo.png'
+import Login from '../pages/Login'
 
 const NavBar = () => {
 
+  const [clickLogin, setClickLogin] = useState(false);
+
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if(clickLogin) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [clickLogin]);
+
   return (
-    <nav className='flex justify-between items-center px-25 bg-[#a4a4a4]'>
+    <nav className='flex relative z-40 justify-between items-center px-25 bg-[#a4a4a4]'>
       <div 
       onClick={() => navigate("/")}
       className='flex justify-start font-bold tracking-wide text-amber-50'>
@@ -25,15 +36,17 @@ const NavBar = () => {
             {link.name}
           </NavLink>
         ))}
-
-        <NavLink
-          to={navLinks[5].path}
-          className="px-8 active:opacity-65 py-1 cursor-pointer font-semibold bg-footer rounded-md text-white"
-        >
+        <div
+        onClick={() => setClickLogin(!clickLogin)}
+        className='bg-footer rounded-md px-5 cursor-pointer active:opacity-65 hover:opacity-90 py-1 text-amber-50 tracking-wide'>
           Login
-        </NavLink>
-
+        </div>
       </div>
+      {
+        clickLogin && <Login
+        setClickLogin={setClickLogin}
+        />
+      }
     </nav>
   )
 }

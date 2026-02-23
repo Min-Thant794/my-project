@@ -11,6 +11,7 @@ import AboutUs from './pages/AboutUs'
 import NotFound from './pages/NotFound'
 import ScrollToTop from './components/ScrollToTop'
 import PageTransition from './components/PageTransition'
+import { ToastContainer } from 'react-toastify'
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -35,6 +36,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <ToastContainer/>
       <AnimatedRoutes />
     </BrowserRouter>
   )

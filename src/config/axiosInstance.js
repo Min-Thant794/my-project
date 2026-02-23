@@ -1,11 +1,25 @@
 import axios from "axios";
 import { API_ROUTES } from "./config";
+import { getMemToken } from "../utils/authToken";
 
 const axiosInstance = axios.create({
     baseURL: API_ROUTES.LOCAL_BASE_URL,
     withCredentials: true,
     timeout: 10000
 });
+
+axiosInstance.interceptors.response.use(
+    (config) => {
+        const memToken = getMemToken();
+
+        if(memToken) {
+            config.headers.Authorization = `Bearer ${memToken}`;
+        }
+
+        return config;
+    },
+    (error) => Promise.reject(error)
+);
 
 axiosInstance.interceptors.response.use(
     (res) => res,

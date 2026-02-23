@@ -22,10 +22,6 @@ export const navLinks = [
     {
         path: "/about-us",
         name: "About Us"
-    },
-    {
-        path: "/login",
-        name: "Login"
     }
 ]
 

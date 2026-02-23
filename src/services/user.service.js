@@ -3,11 +3,31 @@ import { API_ROUTES } from "../config/config";
 
 export const createUser = async (payload) => {
     try {
-        const response = await axiosInstance.post(API_ROUTES.USER_SIGNUP, payload);
+        const response = await axiosInstance.post(API_ROUTES.USER_SIGNUP, payload, payload instanceof FormData ? { headers: {"Content-Type" : "multipart/form-data"}} : undefined);
         console.log("createUser() response: ", response);
         return response.data;
     } catch (error) {
         console.log("An Error Occurred at createUser()", error);
+        return {
+            success: false,
+            message: error?.response?.data?.message || error?.message || "Internal Server Error",
+            error
+        }
+    }
+}
+
+export const loginUser = async (payload) => {
+    try {
+        const response = await axiosInstance.post(API_ROUTES.USER_LOGIN, payload);
+        console.log("loginUser() response: ", response);
+        return response.data;
+    } catch (error) {
+        console.log("An Error Occurred at loginUser()", error);
+        return {
+            success: false,
+            message: error?.response?.data?.message || error?.message || "Internal Server Error",
+            error
+        }
     }
 }
 
@@ -32,7 +52,7 @@ export const updateUser = async(id, payload) => {
         console.log("updateUser() response: ", response);
         return response.data;
     } catch (error) {
-        console.log("An Error Occurred at updateUser()", response);
+        console.log("An Error Occurred at updateUser()", error);
         return {
             success: false,
             message: error.response?.data?.message || "Internal Server Error",
