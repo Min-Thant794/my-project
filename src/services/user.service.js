@@ -1,0 +1,42 @@
+import axiosInstance from "../config/axiosInstance";
+import { API_ROUTES } from "../config/config";
+
+export const createUser = async (payload) => {
+    try {
+        const response = await axiosInstance.post(API_ROUTES.USER_SIGNUP, payload);
+        console.log("createUser() response: ", response);
+        return response.data;
+    } catch (error) {
+        console.log("An Error Occurred at createUser()", error);
+    }
+}
+
+export const getUser = async () => {
+    try {
+        const response = await axiosInstance.get(API_ROUTES.GET_CURRENT_User);
+        console.log("getUser() response: ", response);
+        return response.data;
+    } catch (error) {
+        console.log("AN Error Occurred at getUser()", error);
+        return {
+            success: false,
+            message: error.response?.data?.message || "Internal Server Error",
+            error
+        }
+    }
+}
+
+export const updateUser = async(id, payload) => {
+    try {
+        const response = await axiosInstance.put(`${API_ROUTES.UPDATE_USER}/${id}`, payload);
+        console.log("updateUser() response: ", response);
+        return response.data;
+    } catch (error) {
+        console.log("An Error Occurred at updateUser()", response);
+        return {
+            success: false,
+            message: error.response?.data?.message || "Internal Server Error",
+            error
+        }
+    }
+}

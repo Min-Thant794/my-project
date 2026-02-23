@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* Enable smooth scrolling globally */
+html {
+    scroll-behavior: smooth;
+}
+
 /* primary color */
 @theme{
     --color-primary: #BCC2C2;
