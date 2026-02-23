@@ -1,8 +1,9 @@
 import React, { useRef } from 'react'
 import CurrentLocation from './CurrentLocation';
 import emailjs from '@emailjs/browser'
-import {EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY, EMAILJS_ADMIN_EMAIL} from '../config/config'
-//import { toast } from 'react-toastify';
+import { EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY, EMAILJS_ADMIN_EMAIL } from '../config/config'
+
+emailjs.init(EMAILJS_PUBLIC_KEY);
 
 const GetInTouch = () => {
 
@@ -17,11 +18,9 @@ const GetInTouch = () => {
             form.current, 
             EMAILJS_PUBLIC_KEY
         ).then((response) => {
-            //toast.success("Message sent successfully!");
             console.log("Email successfully sent", response.status, response.text);
             e.target.reset();
         }, (error) => {
-            //toast.error("Failed to send message.");
             console.error("Failed", error.text);
         });
     };

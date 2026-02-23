@@ -15,10 +15,10 @@ const NavBar = () => {
         <img src={Logo} alt="Logo" className='w-4/10 cursor-pointer' />
       </div>
 
-      <div className='flex justify-center items-center text-center gap-10 py-2 font-semibold tracking-wider text-lg'>
+      <div className='flex justify-center items-center text-center gap-10 py-2 font-bold tracking-wider text-lg'>
         {navLinks.slice(0, 5).map((link) => (
           <NavLink
-            className={({isActive}) => `text-lg ${isActive ? 'underline font-semibold' : ''} active:opacity-65 tracking-wide`}
+            className={({isActive}) => `text-lg ${isActive ? 'underline font-bold' : ''} active:opacity-65 tracking-wide`}
             to={link.path}
             key={link.path}
           >

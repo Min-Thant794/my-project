@@ -8,20 +8,20 @@ export const navLinks = [
         name: "Home"
     },
     {
-        path: "/rates",
-        name: "Rates"
-    },
-    {
-        path: "/locations",
-        name: "Locations"
+        path: "/deals",
+        name: "Deals"
     },
     {
         path: "/cars",
         name: "Cars"
     },
     {
-        path: "/blog",
-        name: "Blog"
+        path: "/booking",
+        name: "Booking"
+    },
+    {
+        path: "/about-us",
+        name: "About Us"
     },
     {
         path: "/login",

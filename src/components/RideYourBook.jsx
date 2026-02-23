@@ -3,7 +3,7 @@ import DefaultImage from '../assets/default image.png'
 
 const RideYourBook = () => {
   return (
-    <div className='grid grid-cols-2 justify-between  px-25 py-10'>
+    <div className='grid grid-cols-2 justify-between  px-25 my-7'>
         <div className='flex flex-col gap-3 justify-between mr-40'>
             <div className='flex flex-col gap-5'>
                 <div className='font-extrabold text-4xl italic font-serif'>

@@ -1,12 +1,12 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
+//import { ToastContainer } from 'react-toastify'
 import Login from './pages/Login'
-import Cars from './pages/Cars'
 import Home from './pages/Home'
-import Locations from './pages/Locations'
-import Rates from './pages/Rates'
-import Blog from './pages/Blog'
+import Deals from './pages/Deals'
+import Cars from './pages/Cars'
+import Booking from './pages/Booking'
+import AboutUs from './pages/AboutUs'
 import NotFound from './pages/NotFound'
 
 const App = () => {
@@ -16,10 +16,10 @@ const App = () => {
         <Routes>
           <Route path='/login' element={<Login/>}/>
           <Route path='/' element={<Home/>}/>
+          <Route path='/deals' element={<Deals/>}/>
           <Route path='/cars' element={<Cars/>}/>
-          <Route path='/locations' element={<Locations/>}/>
-          <Route path='/rates' element={<Rates/>}/>
-          <Route path='/blog' element={<Blog/>}/>
+          <Route path='/booking' element={<Booking/>}/>
+          <Route path='/about-us' element={<AboutUs/>}/>
           <Route path='/*' element={<NotFound/>}/>
         </Routes>
       </BrowserRouter>

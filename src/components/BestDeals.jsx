@@ -3,7 +3,7 @@ import defaultImage from '../assets/default image.png'
 
 const BestDeals = () => {
   return (
-    <div className='px-25'>
+    <div className='px-25 mt-20'>
       <div className='text-4xl font-bold tracking-wide text-center'>
         BEST DEALS
       </div>
