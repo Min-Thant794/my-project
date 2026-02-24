@@ -14,7 +14,12 @@ export const UserProvider = ({ children }) => {
                 const payload = result?.data ?? result;
 
                 const merged = payload?.user ?
-                {...payload.user, ...(payload.customerProfile || {})}
+                {
+                    ...payload.user,
+                    ...(payload.customerProfile || {}),
+                    userId: payload.user?._id || payload.user?.id,
+                    customerId: payload.customerProfile?._id || payload.customerProfile?.id,
+                }
                 :
                 (payload?.userName ? payload : null);
 

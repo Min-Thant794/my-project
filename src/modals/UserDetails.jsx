@@ -7,8 +7,7 @@ import { updateUser } from '../services/user.service';
 
 const UserDetails = ({setIsUserDetails}) => {
 
-  const { userData } = useUser();
-  const userId = userData._id || userData.id;
+  const { userData, setUserData } = useUser();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ isEdit, setIsEdit ] = useState(false);
@@ -62,22 +61,29 @@ const UserDetails = ({setIsUserDetails}) => {
         fd.append("phoneNumber", form.phoneNumber);
         fd.append("dateOfBirth", form.dateOfBirth);
 
-        if (previewProfileImg) {
+        if (profileImgFile) {
             fd.append("profileImageUrl", profileImgFile);
         }
 
-        if (previewLicenseImg) {
+        if (licenseImgFile) {
             fd.append("licenseImageUrl", licenseImgFile);
         }
 
-        const response = await updateUser(userId, fd);
+        const response = await updateUser(userData?.userId, fd);
 
         if(!response.success) {
-            toast.error("Failed to update user.")
+            toast.error(response?.message || "Unable to update user details");
             return;
         }
 
-        toast.success(response?.message || "User info is successfully updated!");
+        const updatedUser = response?.data?.user || response?.data || {};
+        setUserData((prev) => ({
+            ...(prev || {}),
+            ...updatedUser,
+            userId: updatedUser?._id || updatedUser?.id || prev?.userId
+        }));
+
+        toast.success("User details updated successfully");
         clearForm();
         setIsUserDetails(false);
     } catch (error) {
@@ -122,6 +128,7 @@ const UserDetails = ({setIsUserDetails}) => {
         className='w-1/2 h-7/10 relative'>
             <form
             onSubmit={(e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 handleUpdate();
             }}
@@ -272,7 +279,7 @@ const UserDetails = ({setIsUserDetails}) => {
                             <input 
                             type="text"
                             id='dob'
-                            placeholder={userData.dateOfBirth.slice(0, 10)}
+                            placeholder={userData?.dateOfBirth?.slice(0, 10) || ""}
                             value={form.dateOfBirth}
                             readOnly={!isEdit}
                             onChange={(e) => setForm(prev => ({ ...prev, dateOfBirth: e.target.value}))}

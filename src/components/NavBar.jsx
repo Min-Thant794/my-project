@@ -24,7 +24,7 @@ const NavBar = () => {
   }, [clickLogin || isUserDetails]);
 
   useEffect(() => {
-    console.log("user data: ", userData);
+    console.log("user data: ", userData?.userId);
   }, [userData]);
 
   return (

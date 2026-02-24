@@ -48,7 +48,13 @@ export const getUser = async () => {
 
 export const updateUser = async(id, payload) => {
     try {
-        const response = await axiosInstance.put(`${API_ROUTES.UPDATE_USER}/${id}`, payload);
+        const route = `${API_ROUTES.UPDATE_USER}/${id}`.replace(/\/+/g, "/");
+        const response = await axiosInstance.put(
+            route,
+            payload,
+            payload instanceof FormData ? { headers: {"Content-Type": "multipart/form-data"} } : undefined,
+        );
+
         console.log("updateUser() response: ", response);
         return response.data;
     } catch (error) {
