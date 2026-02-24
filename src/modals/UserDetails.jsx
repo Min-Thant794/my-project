@@ -8,6 +8,7 @@ import { updateUser } from '../services/user.service';
 const UserDetails = ({setIsUserDetails}) => {
 
   const { userData } = useUser();
+  const userId = userData._id || userData.id;
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ isEdit, setIsEdit ] = useState(false);
@@ -69,8 +70,15 @@ const UserDetails = ({setIsUserDetails}) => {
             fd.append("licenseImageUrl", licenseImgFile);
         }
 
-        const response = await updateUser()
+        const response = await updateUser(userId, fd);
 
+        if(!response.success) {
+            toast.error("Failed to update user.")
+            return;
+        }
+
+        toast.success(response?.message || "User info is successfully updated!");
+        clearForm();
         setIsUserDetails(false);
     } catch (error) {
         console.log("An Error Occurred at handleUpdate()", error);
@@ -134,7 +142,7 @@ const UserDetails = ({setIsUserDetails}) => {
                         ref={profileImageInputRef}
                         type="file"
                         accept='image/*'
-                        onChange={(e => updateLicenseImage(e.target.files[0]))}
+                        onChange={(e => updateProfileImage(e.target.files[0]))}
                         className='hidden'
                         />
                     </div>
@@ -143,7 +151,7 @@ const UserDetails = ({setIsUserDetails}) => {
                         {
                             isEdit &&
                             <div
-                            onClick={() => licenseImageInputRef}
+                            onClick={() => licenseImageInputRef.current?.click()}
                             className='absolute bottom-3 right-3 px-2 py-1 cursor-pointer shadow-lg rounded-sm text-amber-50 active:opacity-65 bg-footer hover:opacity-90'
                             >
                                 update license image

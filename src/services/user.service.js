@@ -37,7 +37,7 @@ export const getUser = async () => {
         console.log("getUser() response: ", response);
         return response.data;
     } catch (error) {
-        console.log("AN Error Occurred at getUser()", error);
+        console.log("An Error Occurred at getUser()", error);
         return {
             success: false,
             message: error.response?.data?.message || "Internal Server Error",
