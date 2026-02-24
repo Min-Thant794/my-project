@@ -219,7 +219,7 @@ const Signup = ({setIsLoginForm, setClickLogin}) => {
                             placeholder='Enter your username'
                             value={form.password}
                             onChange={(e) => setForm( prev => ({ ...prev, password: e.target.value}))}
-                            className='outline-none'
+                            className='outline-none w-full'
                             />
                             {
                                 isShowPassword ?

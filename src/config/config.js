@@ -15,6 +15,7 @@ export const API_ROUTES = {
     USER_LOGIN: "/user/auth/login",
     GET_CURRENT_User: "/user/auth/me",
     UPDATE_USER: "/user/",
+    LOGOUT_USER: "/user/auth/logout",
 
     //cars
     GET_ALL_CARS: "/cars",

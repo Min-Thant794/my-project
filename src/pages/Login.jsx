@@ -6,6 +6,7 @@ import Signup from './Signup';
 import { loginUser } from '../services/user.service';
 import { toast } from 'react-toastify';
 import { setMemoryToken, clearMemToken } from '../utils/authToken';
+import { useUser } from '../context/UserContext';
 
 const Login = ({setClickLogin}) => {
 
@@ -19,6 +20,13 @@ const Login = ({setClickLogin}) => {
   const [userNameRequired, setUserNameRequired] = useState("");
   const [passwordRequired, setPasswordRequired] = useState("");
 
+  useEffect(() => {
+    if(isSignUpForm) {
+        document.body.style.overflow = "hidden";
+    } else {
+        document.body.style.overflow = "auto";
+    }
+  }, [isSignUpForm])
 
   const toggleRememberMe = () => {
     setIsRemember(!isRemember);
@@ -67,7 +75,7 @@ const Login = ({setClickLogin}) => {
         }
 
         toast.success(response?.message || "Login success");
-
+        
         setUserName('');
         setPassword('');
         setClickLogin(false);
