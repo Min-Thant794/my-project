@@ -9,23 +9,26 @@ import defaultImage from '../assets/default image.png'
 
 const NavBar = () => {
 
-  const { userData, authLoading } = useUser();
+  const { userData, authLoading, refreshUser, logout } = useUser();
   const [clickLogin, setClickLogin] = useState(false);
   const [ isUserDetails, setIsUserDetails ] = useState(false);
+  const [expandUserIcon, setExpandUserIcon] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(clickLogin || isUserDetails) {
+    if(clickLogin || isUserDetails || expandUserIcon) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-  }, [clickLogin || isUserDetails]);
+  }, [clickLogin || isUserDetails || expandUserIcon]);
 
   useEffect(() => {
-    console.log("user data: ", userData?.userId);
-  }, [userData]);
+    if(isUserDetails) {
+      refreshUser();
+    }
+  }, [isUserDetails, refreshUser]);
 
   return (
     <nav className='flex relative z-40 h-15 justify-between items-center px-25 bg-[#a4a4a4]'>
@@ -53,7 +56,7 @@ const NavBar = () => {
           :
           userData ? (
             <div
-              onClick={() => setIsUserDetails(true)}
+              onClick={() => setExpandUserIcon(true)}
               className="border-l-3 pl-5 border-footer flex gap-2 cursor-pointer active:opacity-65 hover:opacity-90 overflow-hidden items-center"
             >
               <img
@@ -78,6 +81,36 @@ const NavBar = () => {
         clickLogin && <Login
         setClickLogin={setClickLogin}
         />
+      }
+      {
+        expandUserIcon && 
+        <div 
+        onClick={() => setExpandUserIcon(false)}
+        className='absolute inset-0 w-full h-200 bg-black/20'>
+          <div 
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          className='absolute bg-[#808080] font-bold py-2 rounded-b-md text-amber-50 w-2/14 top-15 right-0 mx-25'>
+            <div
+            onClick={() => {
+              setIsUserDetails(true);
+              setExpandUserIcon(false);
+            }}
+            className='px-3 py-1 border-b-2 border-amber-50 cursor-pointer active:opacity-65 hover:opacity-90'
+            >
+              User Details
+            </div>
+            <div 
+            onClick={() => {
+              logout();
+              setExpandUserIcon(false);
+            }}
+            className='px-3 py-1 cursor-pointer active:opacity-65 hover:opacity-90'>
+              Logout
+            </div>
+          </div>
+        </div>
       }
       {
         isUserDetails && <UserDetails setIsUserDetails={setIsUserDetails}/>

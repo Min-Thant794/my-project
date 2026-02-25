@@ -57,7 +57,11 @@ const UserDetails = ({setIsUserDetails}) => {
         const fd = new FormData();
         fd.append("userName", form.userName);
         fd.append("email", form.email);
-        fd.append("password", form.password);
+
+        if (form.password) {
+            fd.append("password", form.password);
+        }
+
         fd.append("phoneNumber", form.phoneNumber);
         fd.append("dateOfBirth", form.dateOfBirth);
 
@@ -84,7 +88,6 @@ const UserDetails = ({setIsUserDetails}) => {
         }));
 
         toast.success("User details updated successfully");
-        clearForm();
         setIsUserDetails(false);
     } catch (error) {
         console.log("An Error Occurred at handleUpdate()", error);
@@ -94,6 +97,20 @@ const UserDetails = ({setIsUserDetails}) => {
         setIsLoading(false);
     }
   }
+
+  useEffect(() => {
+    if(userData) {
+        setForm({
+            userName: userData.userName || "",
+            email: userData.email || "",
+            password: "",
+            phoneNumber: userData.phoneNumber || "",
+            dateOfBirth: userData.dateOfBirth?.slice(0, 10) || "",
+        });
+        setPreviewProfileImg(userData.profileImageUrl);
+        setPreviewLicenseImg(userData.licenseImageUrl);
+    }
+  }, [userData]);
 
   useEffect(() => {
     return () => {
@@ -108,7 +125,13 @@ const UserDetails = ({setIsUserDetails}) => {
   }, [previewProfileImg, previewLicenseImg]);
 
   const clearForm = () => {
-    setForm(initialForm);
+    setForm({
+        userName: userData.userName || "",
+        email: userData.email || "",
+        password: "",
+        phoneNumber: userData.phoneNumber || "",
+        dateOfBirth: userData.dateOfBirth?.slice(0, 10) || ""
+    });
     setPreviewProfileImg(userData?.profileImageUrl);
     setPreviewLicenseImg(userData?.licenseImageUrl);
     setProfileImgFile(null);
@@ -228,23 +251,28 @@ const UserDetails = ({setIsUserDetails}) => {
                             <input
                             type={isShowPassword ? "text" : "password"}
                             id='password' 
-                            placeholder='Enter your username'
+                            placeholder='Enter password'
                             value={form.password}
                             readOnly={!isEdit}
                             onChange={(e) => setForm( prev => ({ ...prev, password: e.target.value}))}
                             className='outline-none w-full'
                             />
                             {
-                                isShowPassword && !isEdit ?
-                                <FaEye 
-                                onClick={() => setIsShowPassword(!isShowPassword)}
-                                className='cursor-pointer active:opacity-65 hover:opacity-90'
-                                />
-                                :
-                                <FaEyeSlash 
-                                onClick={() => setIsShowPassword(!isShowPassword)}
-                                className='cursor-pointer active:opacity-65 hover:opacity-90'
-                                />
+                                isEdit &&
+                                <div>
+                                    {
+                                        isShowPassword ?
+                                        <FaEye 
+                                        onClick={() => setIsShowPassword(!isShowPassword)}
+                                        className='cursor-pointer active:opacity-65 hover:opacity-90'
+                                        />
+                                        :
+                                        <FaEyeSlash 
+                                        onClick={() => setIsShowPassword(!isShowPassword)}
+                                        className='cursor-pointer active:opacity-65 hover:opacity-90'
+                                        />
+                                    }
+                                </div>
                             }
                         </div>
                     </div>

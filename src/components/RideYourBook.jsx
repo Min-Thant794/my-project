@@ -1,9 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import DefaultImage from '../assets/default image.png'
+import { getAllCars } from '../services/car.service'
+import { toast } from 'react-toastify';
 
 const RideYourBook = () => {
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [car, setCar] = useState([]);
+
+  const fetchCarImg = async () => {
+    try {
+        setIsLoading(true);
+        const response = await getAllCars();
+
+        if(!response.success) {
+            toast.error("Unable to fetch cars");
+        }
+
+        const fetchedCar = response?.data;
+        setCar(fetchedCar);
+    } catch (error) {
+        console.log("An Error Occurred at fetchCarImg()", error);
+        return;
+    } finally {
+        setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchCarImg();
+  }, []);
+
   return (
-    <div className='grid grid-cols-2 justify-between  px-25 my-7'>
+    <div className='grid grid-cols-2 justify-between px-25 my-7'>
         <div className='flex flex-col gap-3 justify-between mr-40'>
             <div className='flex flex-col gap-5'>
                 <div className='font-extrabold text-4xl italic font-serif'>
@@ -17,8 +46,8 @@ const RideYourBook = () => {
                 Book Your Ride
             </div>
         </div>
-        <div className='border-3 border-grey w-full max-h-80 rounded-lg'>
-            <img src={DefaultImage} alt="" className='w-full h-full' />
+        <div className='w-full max-h-80'>
+            <img src={ car?.[0]?.carImageUrl || DefaultImage} alt="" className='w-full h-full object-fit rounded-md shadow-gray-700 shadow-[0_5px_10px_-5px_rgba(0,0,0,0.3)]' />
         </div>
     </div>
   )

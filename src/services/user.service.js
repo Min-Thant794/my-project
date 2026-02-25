@@ -52,7 +52,7 @@ export const updateUser = async(id, payload) => {
         const response = await axiosInstance.put(
             route,
             payload,
-            payload instanceof FormData ? { headers: {"Content-Type": "multipart/form-data"} } : undefined,
+            payload instanceof FormData ? { headers: { "Content-Type": "multipart/form-data" } } : undefined
         );
 
         console.log("updateUser() response: ", response);

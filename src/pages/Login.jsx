@@ -10,6 +10,8 @@ import { useUser } from '../context/UserContext';
 
 const Login = ({setClickLogin}) => {
 
+  const {refreshUser} = useUser();
+
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -76,8 +78,11 @@ const Login = ({setClickLogin}) => {
 
         toast.success(response?.message || "Login success");
         
+        localStorage.setItem("rememberMe", JSON.stringify(isRemember));
+        
         setUserName('');
         setPassword('');
+        await refreshUser();
         setClickLogin(false);
 
     } catch (error) {
