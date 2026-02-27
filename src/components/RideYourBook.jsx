@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import DefaultImage from '../assets/default image.png'
 import { getAllCars } from '../services/car.service'
 import { toast } from 'react-toastify';
+import { NavLink } from 'react-router-dom';
 
 const RideYourBook = () => {
 
@@ -42,9 +43,9 @@ const RideYourBook = () => {
                     Unlock a car in seconds with Let's Drive. No long queues, no heavy paperwork! Just seamless mobility for your everyday needs.
                 </div>
             </div>
-            <div className='bg-footer text-amber-50 font-semibold p-2 text-center rounded-md shadow-xl w-3/10 cursor-pointer active:opacity-65 hover:opacity-90'>
+            <NavLink to={'/cars'} className='bg-footer text-amber-50 font-semibold p-2 text-center rounded-md shadow-xl w-3/10 cursor-pointer active:opacity-65 hover:opacity-90'>
                 Book Your Ride
-            </div>
+            </NavLink>
         </div>
         <div className='w-full max-h-80'>
             <img src={ car?.[0]?.carImageUrl || DefaultImage} alt="" className='w-full h-full object-fit rounded-md shadow-gray-700 shadow-[0_5px_10px_-5px_rgba(0,0,0,0.3)]' />

@@ -16,9 +16,13 @@ export const getMyBooking =  async () => {
     }
 }
 
-export const createMyBooking = async (payload) => {
+export const createMyBooking = async ({ carId, startDate, endDate }) => {
     try {
-        const response = await axiosInstance.post(API_ROUTES.CREATE_BOOKING, payload);
+        const response = await axiosInstance.post(API_ROUTES.CREATE_BOOKING, {
+            carId,
+            startDate,
+            endDate
+        });
         console.log("createMyBooking() response: ", response);
         return response.data;
     } catch (error) {
@@ -31,9 +35,19 @@ export const createMyBooking = async (payload) => {
     }
 }
 
-export const updateMyBooking = async (id, payload) => {
+export const updateMyBooking = async (bookingId, { startDate, endDate }) => {
     try {
-        const response = axiosInstance.put(`${API_ROUTES.UPDATE_MY_BOOKING}/${id}`, payload);
+        const payload = {};
+        if(startDate !== undefined) {
+            payload.startDate = startDate;
+        }
+
+        if(endDate !== undefined) {
+            payload.endDate = endDate;
+        }
+
+        const response = await axiosInstance.patch(`${API_ROUTES.UPDATE_MY_BOOKING}/${bookingId}`);
+
         console.log("updateMyBooking() response: ", response);
         return response.data;
     } catch (error) {
@@ -46,13 +60,14 @@ export const updateMyBooking = async (id, payload) => {
     }
 }
 
-export const deleteMyBooking = async (id) => {
+export const cancelMyBooking = async (bookingId) => {
     try {
-        const response = await axiosInstance.delete(`${API_ROUTES.DELETE_MY_BOOKING}/${id}`);
-        console.log("deleteMyBooking() response: ", deleteMyBooking);
+        const response = await axiosInstance.delete(`${API_ROUTES.DELETE_MY_BOOKING}/${bookingId}`);
+
+        console.log("cancelMyBooking() response: ", response);
         return response.data;
     } catch (error) {
-        console.log("An Error Occurred at deleteMyBooking()", error);
+        console.log("An Error Occurred at cancelMyBooking()", error);
         return {
             success: false,
             message: error.response?.data?.message || "Internal Server Error",

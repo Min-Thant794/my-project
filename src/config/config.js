@@ -19,6 +19,7 @@ export const API_ROUTES = {
 
     //cars
     GET_ALL_CARS: "/cars",
+    GET_CARS_BY_DISCOUNT: "/cars/discount-car",
 
     //bookings
     GET_MY_BOOKINGS: "/bookings/my-bookings",
