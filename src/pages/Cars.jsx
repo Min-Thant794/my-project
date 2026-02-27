@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
 import SearchBar from '../components/SearchBar'
@@ -7,8 +7,20 @@ import SearchVehicle from '../components/SearchVehicle'
 import { getAllCars, getCarById } from '../services/car.service'
 import { toast } from 'react-toastify'
 import CarDetails from '../modals/CarDetails'
+import { normalizeToSingaporeMidnightISO } from '../helpers/normalizeLocalTime'
+import { addDays } from 'date-fns'
 
 const Cars = () => {
+
+  const minDate = useMemo(() => addDays(new Date(), 1), []);
+  const maxDate = useMemo(() => addDays(new Date(), 90), []);
+  const [ range, setRange ] = useState([
+    {
+      startDate: minDate,
+      endDate: addDays(minDate, 1),
+      key: "selection",
+    }
+  ]);
 
   const [allCars, setAllCars] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +42,15 @@ const Cars = () => {
     try {
       setIsLoading(true);
 
-      const response = await getAllCars(currentPage, itemsPerPage, query, mode);
+      const startISO = range?.[0]?.startDate
+      ? normalizeToSingaporeMidnightISO(range[0].startDate)
+      : null;
+
+      const endISO = range?.[0]?.endDate
+        ? normalizeToSingaporeMidnightISO(range[0].endDate)
+        : null;
+      
+        const response = await getAllCars(currentPage, itemsPerPage, query, mode, startISO, endISO);
 
       if(!response?.success) {
         toast.error("Failed to fetch cars");
@@ -52,15 +72,15 @@ const Cars = () => {
 
   useEffect(() => {
     fetchAllCars();
-  }, [currentPage]);
+  }, [currentPage, range]);
 
   useEffect(() => {
-    const t = setTimeout(() => {
+    const timeOut = setTimeout(() => {
       fetchAllCars();
     }, 300);
 
-    return () => clearTimeout();
-  }, [currentPage, query, mode]);
+    return () => clearTimeout(timeOut);
+  }, [currentPage, query, mode, range]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -108,9 +128,13 @@ const Cars = () => {
       {
         selectedCarId && (
           <CarDetails
-          selectedCarId={selectedCarId}
-          setSelectedCarId={setSelectedCarId}
-          selectedCar={selectedCar}
+            selectedCarId={selectedCarId}
+            setSelectedCarId={setSelectedCarId}
+            selectedCar={selectedCar}
+            range={range}
+            setRange={setRange}
+            minDate={minDate}
+            maxDate={maxDate}
           />
         )
       }
