@@ -6,12 +6,10 @@ import { NavLink } from 'react-router-dom';
 
 const RideYourBook = () => {
 
-  const [isLoading, setIsLoading] = useState(false);
   const [car, setCar] = useState([]);
 
   const fetchCarImg = async () => {
     try {
-        setIsLoading(true);
         const response = await getAllCars();
 
         if(!response.success) {
@@ -23,8 +21,6 @@ const RideYourBook = () => {
     } catch (error) {
         console.log("An Error Occurred at fetchCarImg()", error);
         return;
-    } finally {
-        setIsLoading(false);
     }
   }
 

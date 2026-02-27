@@ -16,7 +16,9 @@ const CarDetails = ({
   range,
   setRange,
   minDate,
-  maxDate
+  maxDate,
+  onClose,
+  onBookingSuccess, 
 }) => {
 
   const startDate = range?.[0]?.startDate;
@@ -49,36 +51,66 @@ const CarDetails = ({
 
     toast.success("Booking created successfully!");
     setSelectedCarId(null);
+    onBookingSuccess?.();
+    onClose?.(); 
   };
 
   return (
     <div
-      onClick={() => setSelectedCarId(null)}
+      onClick={onClose}
       className='fixed inset-0 z-50 flex items-center justify-center bg-black/30'
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className='relative w-3/5 h-170 mt-5 bg-[#a4a4a4] rounded-xl border-2 border-[#a4a4a4] shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)]'
+        className='relative ml-15 w-3/5 h-170 mt-5 bg-[#a4a4a4] rounded-xl border-2 border-[#a4a4a4] shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)]'
       >
         <IoClose
-          onClick={() => setSelectedCarId(null)}
+          onClick={onClose}
           className='absolute top-3 right-3 text-2xl cursor-pointer active:opacity-65 hover:opacity-90'
         />
 
         <div className='w-full h-full flex '>
-          <div className='w-2/3 h-full'>
-            <div className='text-2xl h-full left-3 top-3 font-bold absolute italic font-serif'>
-              {selectedCar?.carName}
-            </div>
-            <div className='w-full h-100'>
-              <img
-                src={selectedCar?.carImageUrl}
-                className='w-full h-full object-cover rounded-tl-xl rounded-br-xl shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)]'
-              />
+          <div className="w-2/3 h-full relative">
+            <div className="absolute left-3 top-3 text-2xl font-bold italic font-serif z-10">
+            {selectedCar?.carName}
             </div>
 
-            {/* ... keep your left-side UI unchanged ... */}
-          </div>
+            <div className="w-full h-100">
+            <img
+                src={selectedCar?.carImageUrl}
+                alt={selectedCar?.carName || "Car image"}
+                className="w-full h-full object-cover rounded-tl-xl rounded-br-xl shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)]"
+            />
+            </div>
+
+            <div className="flex flex-col justify-center items-center w-full px-5 my-3">
+                <div className="w-full px-5 rounded-lg mt-5 shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)]">
+                    <div className="text-2xl pt-5 italic font-serif font-bold tracking-wide">
+                    Description
+                    </div>
+                    <div className="font-semibold py-3 pr-5">
+                    {selectedCar?.description}
+                    </div>
+                </div>
+
+                <div className="flex w-full justify-center items-center gap-5 my-5">
+                    <div className="w-1/5 text-center border-2 border-footer rounded-lg shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] flex flex-col">
+                        <div className="font-bold text-lg">{selectedCar?.vehicleType}</div>
+                        <div>Vehicle Type</div>
+                    </div>
+
+                    <div className="w-1/5 text-center border-2 border-footer rounded-lg shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] flex flex-col">
+                        <div className="font-bold text-lg">{selectedCar?.seater}</div>
+                        <div>Seater</div>
+                    </div>
+
+                    <div className="w-1/5 text-center border-2 border-footer rounded-lg shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] flex flex-col">
+                        <div className="font-bold text-lg">{selectedCar?.fuelType}</div>
+                        <div>Fuel Type</div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
           <div className='relative w-1/3 my-10 h-155 rounded-lg px-3 mx-3 bg-[#a4a4a4] shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] flex flex-col'>
             <div className='text-2xl pb-5 font-bold'>Pickup and Return</div>

@@ -6,7 +6,7 @@ import Signup from './Signup';
 import { loginUser } from '../services/user.service';
 import { toast } from 'react-toastify';
 import { setMemoryToken, clearMemToken } from '../utils/authToken';
-import { useUser } from '../context/UserContext';
+import { useUser } from '../hooks/useUser';
 
 const Login = ({setClickLogin}) => {
 
@@ -96,11 +96,11 @@ const Login = ({setClickLogin}) => {
 
   useEffect(() => {
     if(userNameRequired && userName.trim()) setUserNameRequired("");
-  }, [userName]);
+  }, [userName, userNameRequired]);
 
   useEffect(() => {
     if(passwordRequired && password.trim()) setPasswordRequired("");
-  }, [password]);
+  }, [password, passwordRequired]);
 
   return (
     <div 

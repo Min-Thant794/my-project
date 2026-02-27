@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import defaultImage from '../assets/default image.png'
 import CarDetails from '../modals/CarDetails';
+import { getCarById } from '../services/car.service';
 
 const BestDeals = ({discountedCar}) => {
 
   const [selectedCarId, setSelectedCarId] = useState(null);
   const [selectedCar, setSelectedCar] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if(!selectedCarId) return;
     const fetchCar = async () => {
-      setIsLoading(true);
       setSelectedCar(null); //remove previous response car data
       try {
         const response = await getCarById(selectedCarId);

@@ -9,15 +9,13 @@ import GetInTouch from '../components/GetInTouch'
 import { getCarsByDiscount } from '../services/car.service'
 import { toast } from 'react-toastify'
 
-const home = () => {
+const Home = () => {
 
   const [discountedCar, setDiscountedCar] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
 
   const fetchDealCars = async () => {
     try {
-      setIsLoading(true);
-      const response = await getCarsByDiscount();
+      const response = await getCarsByDiscount({ limit: 6, page: 1});
 
       if(!response) {
         toast.error("Failed to fetch discounted car");
@@ -31,8 +29,6 @@ const home = () => {
       console.log("An Error Occurred at fetchDealCars!");
       toast.error("Unable to fetch discounted car");
       return error;
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -55,4 +51,4 @@ const home = () => {
   )
 }
 
-export default home
+export default Home

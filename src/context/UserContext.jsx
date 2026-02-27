@@ -1,11 +1,10 @@
-import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { getUser } from '../services/user.service';
 import axiosInstance from '../config/axiosInstance';
 import { API_ROUTES } from '../config/config';
 import { toast } from 'react-toastify';
 import { clearMemToken } from '../utils/authToken';
-
-const UserContext = createContext(null);
+import { UserContext } from './UserContextObject';
 
 const isRememberMe = () => JSON.parse(localStorage.getItem("rememberMe") || "false");
 
@@ -32,7 +31,7 @@ export const UserProvider = ({ children }) => {
 
             setUserData(merged);
             return merged;
-        } catch (error) {
+        } catch {
             setUserData(null);
             return null;
         } finally {
@@ -52,7 +51,7 @@ export const UserProvider = ({ children }) => {
             await axiosInstance.post(API_ROUTES.LOGOUT_USER);
             localStorage.removeItem("rememberMe");
             toast.success("Logged out successfully!");
-        } catch (error) {
+        } catch {
             
         }
     }, []);
@@ -92,11 +91,3 @@ export const UserProvider = ({ children }) => {
         </UserContext.Provider>
     )
 }
-
-export const useUser = () => {
-    const context = useContext(UserContext);
-    if(!context) {
-        throw new Error("useUser must be used inside <UserProvider>");
-    }
-    return context;
-};

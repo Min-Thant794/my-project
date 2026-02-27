@@ -3,7 +3,7 @@ import { navLinks } from '../constants'
 import { NavLink, useNavigate } from 'react-router-dom'
 import Logo from '../assets/logo.png'
 import Login from '../pages/Login'
-import { useUser } from '../context/UserContext'
+import { useUser } from '../hooks/useUser'
 import UserDetails from '../modals/UserDetails'
 import defaultImage from '../assets/default image.png'
 
@@ -16,13 +16,15 @@ const NavBar = () => {
 
   const navigate = useNavigate();
 
+  const shouldLockBody = clickLogin || isUserDetails || expandUserIcon;
+
   useEffect(() => {
-    if(clickLogin || isUserDetails || expandUserIcon) {
+    if(shouldLockBody) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
     }
-  }, [clickLogin || isUserDetails || expandUserIcon]);
+  }, [shouldLockBody]);
 
   useEffect(() => {
     if(isUserDetails) {

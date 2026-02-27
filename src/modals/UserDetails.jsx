@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useUser } from '../context/UserContext';
+import { useUser } from '../hooks/useUser';
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { toast } from 'react-toastify';
 import { IoClose } from 'react-icons/io5';

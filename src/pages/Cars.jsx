@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
 import SearchBar from '../components/SearchBar'
@@ -14,65 +14,69 @@ const Cars = () => {
 
   const minDate = useMemo(() => addDays(new Date(), 1), []);
   const maxDate = useMemo(() => addDays(new Date(), 90), []);
-  const [ range, setRange ] = useState([
+  const buildDefaultRange = useCallback(() => ([
     {
       startDate: minDate,
       endDate: addDays(minDate, 1),
       key: "selection",
     }
-  ]);
+  ]), [minDate]);
+
+  const [range, setRange] = useState(() => buildDefaultRange());
+
+  const resetRange = useCallback(() => {
+    setRange(buildDefaultRange());
+  }, [buildDefaultRange]);
 
   const [allCars, setAllCars] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const itemsPerPage = 12;
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [query, setQuery] = useState("");
-  const [mode, setMode] = useState("contains");
+  const [mode, setMode] = useState("contain");
   const [selectedCarId, setSelectedCarId] = useState(null);
   const [selectedCar, setSelectedCar] = useState(null);
 
-  if(selectedCarId) {
-      document.body.style.overflow = "hidden"
-  } else {
-      document.body.style.overflow = "auto"
-  }
+  const closeCarDetails = useCallback(() => {
+    setSelectedCarId(null);
+    resetRange();
+  }, [resetRange]);
 
-  const fetchAllCars = async () => {
+  useEffect(() => {
+    document.body.style.overflow = selectedCarId ? 'hidden' : 'auto';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [selectedCarId]);
+
+  const fetchAllCars = useCallback(async () => {
     try {
-      setIsLoading(true);
+      const start = range?.[0]?.startDate;
+      const end = range?.[0]?.endDate;
 
-      const startISO = range?.[0]?.startDate
-      ? normalizeToSingaporeMidnightISO(range[0].startDate)
-      : null;
+      const hasValidRange =
+        start instanceof Date &&
+        end instanceof Date &&
+        end.getTime() > start.getTime();
 
-      const endISO = range?.[0]?.endDate
-        ? normalizeToSingaporeMidnightISO(range[0].endDate)
-        : null;
-      
-        const response = await getAllCars(currentPage, itemsPerPage, query, mode, startISO, endISO);
+      const startISO = hasValidRange ? normalizeToSingaporeMidnightISO(start) : undefined;
+      const endISO = hasValidRange ? normalizeToSingaporeMidnightISO(end) : undefined;
 
-      if(!response?.success) {
-        toast.error("Failed to fetch cars");
-        console.error("Failed to fetch cars");
+      const response = await getAllCars(currentPage, itemsPerPage, query, mode, startISO, endISO);
+
+      if (!response?.success) {
+        toast.error(response?.message || "Failed to fetch cars");
+        console.error("Failed to fetch cars", { startISO, endISO, response });
         return;
       }
 
       setTotalPages(response?.pagination?.totalPages || 1);
-      //toast.success(response?.message);
       setAllCars(response?.data || []);
-      
     } catch (error) {
       console.log("An Error Occurred at fetchAllCars()", error);
       toast.error("Unable to fetch cars");
-    } finally {
-      setIsLoading(false);
     }
-  }
-
-  useEffect(() => {
-    fetchAllCars();
-  }, [currentPage, range]);
+  }, [currentPage, itemsPerPage, mode, query, range]);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -80,7 +84,7 @@ const Cars = () => {
     }, 300);
 
     return () => clearTimeout(timeOut);
-  }, [currentPage, query, mode, range]);
+  }, [fetchAllCars]);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -89,7 +93,6 @@ const Cars = () => {
   useEffect(() => {
     if(!selectedCarId) return;
     const fetchCar = async () => {
-      setIsLoading(true);
       setSelectedCar(null); //remove previous response car data
       try {
         const response = await getCarById(selectedCarId);
@@ -135,6 +138,8 @@ const Cars = () => {
             setRange={setRange}
             minDate={minDate}
             maxDate={maxDate}
+            onClose={closeCarDetails}
+            onBookingSuccess={resetRange}
           />
         )
       }
