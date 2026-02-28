@@ -39,7 +39,6 @@ const SearchVehicle = ({allCars, currentPage, setCurrentPage, totalPages, query,
                 <div
                     key={car._id}
                     onMouseDown={() => {
-                    // pick suggestion
                     setQuery(car.carName);
                     setMode("contains");  // run normal search list
                     setOpen(false);
@@ -59,11 +58,13 @@ const SearchVehicle = ({allCars, currentPage, setCurrentPage, totalPages, query,
                     className='flex transition-all duration-700 hover:translate-1 flex-col w-full h-full gap-3 bg-[#d6d6d6] rounded-xl shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] px-5 pt-5'>
                         <div className='flex justify-between items-center'>
                             <div className='text-xl font-bold'>{car.carName}</div>
-                            <div className='flex items-center w-1/3 text-center'>
-                                {
-                                    car?.discount &&
-                                    <div className='font-bold h-full w-full bg-footer text-amber-50 py-1 select-none px-2 shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] rounded-full'>{car.discount}% OFF</div>
-                                }
+                            <div className='w-3/8'>
+                                <div className='flex items-center w-full text-center'>
+                                    {
+                                        car?.discount &&
+                                        <div className='font-bold h-full w-full bg-footer text-amber-50 py-1 select-none px-2 shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] rounded-full'>{car.discount}% OFF</div>
+                                    }
+                                </div>
                             </div>
                         </div>
                         <div className='flex justify-between text-sm items-center mt-3'>
@@ -72,7 +73,7 @@ const SearchVehicle = ({allCars, currentPage, setCurrentPage, totalPages, query,
                         </div>
                         <div className='flex justify-between text-sm items-center mt-2'>
                             <div className='px-5 py-1 bg-[#d6d6d6] text-center w-5/11 shadow-gray-700 font-bold tracking-wide shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] rounded-full select-none'>{car?.seater} seater</div>
-                            <div className='px-5 py-1 bg-[#d6d6d6] text-center w-5/11 shadow-gray-700 font-bold tracking-wide shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] rounded-full select-none'>{car?.pricePerDay}$/day</div>
+                            <div className='px-5 py-1 bg-[#d6d6d6] text-center w-5/11 shadow-gray-700 font-bold tracking-wide shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] rounded-full select-none'>{car?.discount ? car?.discountedPrice : car?.pricePerDay}$/day</div>
                         </div>
                         <div className='w-full h-full my-5'>
                             <img src={car?.carImageUrl || defaultImage} alt="" className='w-full h-full shadow-gray-700 shadow-[0_5px_10px_-3px_rgba(0,0,0,0.3)] object-fit rounded-xl' />

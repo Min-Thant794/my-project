@@ -9,9 +9,12 @@ import { toast } from 'react-toastify'
 import CarDetails from '../modals/CarDetails'
 import { normalizeToSingaporeMidnightISO } from '../helpers/normalizeLocalTime'
 import { addDays } from 'date-fns'
+import { useSearchParams } from 'react-router-dom'
 
 const Cars = () => {
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const carIdFromUrl = searchParams.get("carId");
   const minDate = useMemo(() => addDays(new Date(), 1), []);
   const maxDate = useMemo(() => addDays(new Date(), 90), []);
   const buildDefaultRange = useCallback(() => ([
@@ -37,10 +40,21 @@ const Cars = () => {
   const [selectedCarId, setSelectedCarId] = useState(null);
   const [selectedCar, setSelectedCar] = useState(null);
 
+  const [filters, setFilters] = useState({
+    fuelType: "",
+    vehicleType: "",
+    seater: null,
+    brand: "",
+  });
+
   const closeCarDetails = useCallback(() => {
     setSelectedCarId(null);
+    setSelectedCar(null);
     resetRange();
-  }, [resetRange]);
+
+    searchParams.delete("carId");
+    setSearchParams(searchParams, { replace: true });
+  }, [resetRange, searchParams, setSearchParams]);
 
   useEffect(() => {
     document.body.style.overflow = selectedCarId ? 'hidden' : 'auto';
@@ -62,7 +76,7 @@ const Cars = () => {
       const startISO = hasValidRange ? normalizeToSingaporeMidnightISO(start) : undefined;
       const endISO = hasValidRange ? normalizeToSingaporeMidnightISO(end) : undefined;
 
-      const response = await getAllCars(currentPage, itemsPerPage, query, mode, startISO, endISO);
+      const response = await getAllCars(currentPage, itemsPerPage, query, mode, startISO, endISO, filters);
 
       if (!response?.success) {
         toast.error(response?.message || "Failed to fetch cars");
@@ -76,7 +90,7 @@ const Cars = () => {
       console.log("An Error Occurred at fetchAllCars()", error);
       toast.error("Unable to fetch cars");
     }
-  }, [currentPage, itemsPerPage, mode, query, range]);
+  }, [currentPage, itemsPerPage, mode, query, range, filters]);
 
   useEffect(() => {
     const timeOut = setTimeout(() => {
@@ -88,7 +102,7 @@ const Cars = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [query, mode]);
+  }, [query, mode, filters]);
 
   useEffect(() => {
     if(!selectedCarId) return;
@@ -103,19 +117,34 @@ const Cars = () => {
     };
 
     fetchCar();
-  }, [selectedCarId])
+  }, [selectedCarId]);
+
+  useEffect(() => {
+    if (!carIdFromUrl) return;
+
+    setSelectedCarId(carIdFromUrl);
+
+    resetRange();
+  }, [carIdFromUrl, resetRange]);
 
   return (
     <div className='relative'>
       <NavBar/>
-      <div className='px-25'>
+      <div className='flex flex-col justify-center items-center px-25'>
         <div className='w-full text-center mt-15 text-3xl font-bold'>
           Find Your Perfect Ride Today
         </div>
-        <SearchBar/>
+        {/* <SearchBar/> */}
+        <div className='w-3/5 font-semibold pt-7 font-serif text-center italic'>
+          “Find Your Perfect Ride Today by exploring our complete vehicle collection. Use smart filters to narrow down options by brand, fuel type, seating capacity, and availability, and select the car that best fits your journey.”
+        </div>
       </div>
       <div className='my-10 grid grid-cols-7'>
-        <FilterCar/>
+        <FilterCar
+          filters={filters}
+          setFilters={setFilters}
+          setCurrentPage={setCurrentPage}
+        />
         <SearchVehicle
         allCars={allCars}
         currentPage={currentPage}
@@ -128,21 +157,19 @@ const Cars = () => {
         setSelectedCarId={setSelectedCarId}
         />
       </div>
-      {
-        selectedCarId && (
-          <CarDetails
-            selectedCarId={selectedCarId}
-            setSelectedCarId={setSelectedCarId}
-            selectedCar={selectedCar}
-            range={range}
-            setRange={setRange}
-            minDate={minDate}
-            maxDate={maxDate}
-            onClose={closeCarDetails}
-            onBookingSuccess={resetRange}
-          />
-        )
-      }
+      {selectedCarId && selectedCar && (
+        <CarDetails
+          selectedCarId={selectedCarId}
+          setSelectedCarId={setSelectedCarId}
+          selectedCar={selectedCar}
+          range={range}
+          setRange={setRange}
+          minDate={minDate}
+          maxDate={maxDate}
+          onClose={closeCarDetails}
+          onBookingSuccess={resetRange}
+        />
+      )}
       <Footer/>
     </div>
   )

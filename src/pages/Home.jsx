@@ -6,12 +6,29 @@ import RideYourBook from '../components/RideYourBook'
 import BestDeals from '../components/BestDeals'
 import FAQs from '../components/FAQs'
 import GetInTouch from '../components/GetInTouch'
-import { getCarsByDiscount } from '../services/car.service'
+import { getAllCars, getCarsByDiscount } from '../services/car.service'
 import { toast } from 'react-toastify'
+import { NavLink } from 'react-router-dom'
 
 const Home = () => {
 
   const [discountedCar, setDiscountedCar] = useState([]);
+  const [allCars, setAllCars] = useState([]);
+
+  const fetchAllCars = async () => {
+    try {
+      const response = await getAllCars();
+
+      if(!response.success) {
+        return;
+      }
+
+      setAllCars(response?.data || []);
+    } catch (error) {
+      console.log("An Error Occurred at fetchAllCars", error);
+      return;
+    }
+  }
 
   const fetchDealCars = async () => {
     try {
@@ -34,12 +51,16 @@ const Home = () => {
 
   useEffect(() => {
     fetchDealCars();
+    fetchAllCars();
   }, []);
   
   return (
     <div className='w-full'>
     <NavBar/>
-    <Carousel/>
+    <Carousel
+    allCars={allCars}
+    clickMode='navigate'
+    />
     <RideYourBook/>
     <BestDeals
     discountedCar={discountedCar}

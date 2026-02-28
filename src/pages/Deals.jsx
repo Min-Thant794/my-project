@@ -7,6 +7,8 @@ import { getCarsByDiscount } from '../services/car.service'
 import CarDetails from '../modals/CarDetails'
 import { addDays } from 'date-fns'
 import { FaGreaterThan, FaLessThan } from 'react-icons/fa6'
+import { IoClose } from 'react-icons/io5'
+import { FaSearch } from 'react-icons/fa'
 
 const Deals = () => {
 
@@ -17,6 +19,7 @@ const Deals = () => {
   const [discountedCar, setDiscountedCar] = useState([]);
   const [selectedCarId, setSelectedCarId] = useState(null);
   const [selectedCar, setSelectedCar] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const minDate = useMemo(() => addDays(new Date(), 1), []);
   const maxDate = useMemo(() => addDays(new Date(), 90), []);
@@ -32,19 +35,11 @@ const Deals = () => {
   const discountPercentage = [10, 15, 20, 30, 35, 40, 45, 50];
   const [selectedDiscount, setSelectedDiscount] = useState(null);
 
-  const handleDiscountChange = (value) => {
-    setSelectedDiscounts((prev) =>
-    prev.includes(value)
-      ? prev.filter((v) => v !== value)
-      : [...prev, value]
-  );
-  }
+  const limit = 12;
   
   const fetchDealCars = async () => {
     try {
-      const limit = 12;
-
-      const response = await getCarsByDiscount({ page: currentPage, limit });
+      const response = await getCarsByDiscount({ page: currentPage, limit, q: query, mode });
 
       if (!response?.success) {
         toast.error(response?.message || "Failed to fetch discounted car");
@@ -54,20 +49,32 @@ const Deals = () => {
       const cars = response?.data ?? [];
       const pages = response?.pagination?.totalPages ?? 1;
 
-      if (!Array.isArray(cars)) {
-        console.log("Unexpected response shape: ", response);
-        toast.error("Discounted cars response format is wrong");
-        return;
-      }
-
       setDiscountedCar(cars);
       setTotalPages(pages);
-
-      // optional debug
-      console.log("page:", currentPage, "totalPages:", pages, "cars:", cars.length);
     } catch (error) {
       console.log("An Error Occurred at fetchDealCars!", error);
       toast.error("Unable to fetch discounted car");
+    }
+  };
+
+  const fetchFilteredCar = async () => {
+    try {
+      const response = await getCarsByDiscount({
+        page: currentPage,
+        limit,
+        discount: selectedDiscount,
+      });
+
+      if (!response?.success) {
+        toast.error(response?.message || "Failed to fetch filtered cars");
+        return;
+      }
+
+      setDiscountedCar(response?.data ?? []);
+      setTotalPages(response?.pagination?.totalPages ?? 1);
+    } catch (error) {
+      console.error("Failed to fetch filtered cars", error);
+      toast.error("Unable to fetch filtered cars");
     }
   };
 
@@ -83,8 +90,12 @@ const Deals = () => {
   };
 
   useEffect(() => {
-    fetchDealCars();
-  }, [currentPage]);
+    if(selectedDiscount !== null) {
+      fetchFilteredCar();
+    } else {
+      fetchDealCars();
+    }
+  }, [currentPage, selectedDiscount, query, mode]);
 
   useEffect(() => {
     document.body.style.overflow = selectedCarId ? 'hidden' : 'auto';
@@ -101,11 +112,40 @@ const Deals = () => {
     <div>
         <NavBar/>
         <div className='w-full px-25 flex flex-col justify-center items-center'>
-          <div className='w-full text-center mt-15 text-3xl font-bold'>
+          <div className='w-full text-center mt-15 text-4xl font-bold'>
             Our Latest Discounts
           </div>
-          <Carousel/>
+          <Carousel
+          allCars={discountedCar}
+          clickFromHome={false}
+          />
         </div>
+        <div className='w-full flex justify-end items-center px-25 mt-10'>
+          <div className='flex justify-between w-2/11 font-bold items-center border-2 shadow-xl border-[#a4a4a4] px-5 rounded-md py-2'>
+              <div className='w-full'>
+                <input 
+                type="text" 
+                value={query}
+                onChange={(e) => {
+                    setMode("typeahead");
+                    setQuery(e.target.value);
+                    setCurrentPage(1);
+                    setOpen(true);
+                }}
+                onFocus={() => query.trim() && setOpen(true)}
+                onBlur={() => setTimeout(() => setOpen(false), 150)}
+                onKeyDown={(e) => {
+                    if(e.key === "Enter"){
+                        setMode("contains");
+                        setOpen(false);
+                    }
+                }}
+                placeholder='Search for vehicle' 
+                className='w-full outline-none' />
+              </div>
+              <div><FaSearch className='text-xl'/></div>
+          </div>
+          </div>
         <div className='grid grid-cols-10 pt-10 pb-20'>
           <div className='col-span-2 px-10 shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] bg-footer rounded-tr-xl rounded-br-xl h-full'>
             <div className='border-b-2 border-amber-50 py-3 text-amber-50 font-bold text-xl tracking-wide'>
@@ -116,18 +156,37 @@ const Deals = () => {
                 Discount
               </div>
             </div>
-            <div className='grid grid-cols-2 text-amber-50 font-semibold'>
+            <div className='grid grid-cols-2 gap-5 text-amber-50 font-semibold'>
               {discountPercentage.map((d) => (
                 <label key={d} className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={selectedDiscount === d}
-                    onChange={() => setSelectedDiscount(d)}
+                    onChange={() => {
+                      setSelectedDiscount(d);
+                      setCurrentPage(1);
+                    }}
                     className="w-4 h-4 accent-white"
                   />
                   <span>{d}%</span>
                 </label>
               ))}
+            </div>
+            <div className='flex justify-end items-center w-full pt-5'>
+              <div 
+              onClick={() => {
+                setSelectedDiscount(null);
+                setCurrentPage(1);
+                fetchDealCars();
+              }}
+              className='w-3/5 font-semibold tracking-wide flex gap-2 justify-center items-center active:opacity-65 hover:opacity-90 cursor-pointer px-2 py-2 rounded-lg bg-[#d2d2d2]'>
+                <div>
+                  Clear Filter
+                </div>
+                <div className='mt-1'>
+                  <IoClose className='text-xl'/>
+                </div>
+              </div>
             </div>
           </div>
           <div className='col-span-8 grid grid-cols-3 gap-6 ml-7 mr-25'>
