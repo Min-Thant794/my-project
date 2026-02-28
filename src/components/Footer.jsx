@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 const Footer = () => {
 
   return (
-    <div className='px-25' style={{ backgroundColor: '#434343', color: '#eaeaea' }}>
+    <div className='px-25 inset-x-0' style={{ backgroundColor: '#434343', color: '#eaeaea' }}>
       <div className='grid grid-cols-3 py-7'>
         <div>
           <div className='w-60'>

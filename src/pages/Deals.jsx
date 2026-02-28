@@ -109,8 +109,7 @@ const Deals = () => {
   }, [totalPages]);
 
   return (
-    <div>
-        <NavBar/>
+    <div className='bg-[#d6d6d6]'>
         <div className='w-full px-25 flex flex-col justify-center items-center'>
           <div className='w-full text-center mt-15 text-4xl font-bold'>
             Our Latest Discounts
@@ -270,7 +269,6 @@ const Deals = () => {
               </div>
           </div>
         </div>
-        <Footer/>
     </div>
   )
 }

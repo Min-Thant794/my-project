@@ -12,6 +12,7 @@ import NotFound from './pages/NotFound'
 import ScrollToTop from './components/ScrollToTop'
 import PageTransition from './components/PageTransition'
 import { ToastContainer } from 'react-toastify'
+import Layout from './layouts/Layout'
 
 const AnimatedRoutes = () => {
   const location = useLocation();
@@ -20,13 +21,15 @@ const AnimatedRoutes = () => {
     /* mode="wait" ensures the current page fades out before the next one fades in */
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path='/login' element={<PageTransition><Login/></PageTransition>}/>
-        <Route path='/' element={<PageTransition><Home/></PageTransition>}/>
-        <Route path='/deals' element={<PageTransition><Deals/></PageTransition>}/>
-        <Route path='/cars' element={<PageTransition><Cars/></PageTransition>}/>
-        <Route path='/booking' element={<PageTransition><Booking/></PageTransition>}/>
-        <Route path='/about-us' element={<PageTransition><AboutUs/></PageTransition>}/>
-        <Route path='/*' element={<PageTransition><NotFound/></PageTransition>}/>
+        <Route element={<Layout/>}>
+          <Route path='/login' element={<PageTransition><Login/></PageTransition>}/>
+          <Route path='/' element={<PageTransition><Home/></PageTransition>}/>
+          <Route path='/deals' element={<PageTransition><Deals/></PageTransition>}/>
+          <Route path='/cars' element={<PageTransition><Cars/></PageTransition>}/>
+          <Route path='/booking' element={<PageTransition><Booking/></PageTransition>}/>
+          <Route path='/about-us' element={<PageTransition><AboutUs/></PageTransition>}/>
+          <Route path='/*' element={<PageTransition><NotFound/></PageTransition>}/>
+        </Route>
       </Routes>
     </AnimatePresence>
   )

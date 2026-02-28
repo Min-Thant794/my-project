@@ -55,8 +55,7 @@ const Home = () => {
   }, []);
   
   return (
-    <div className='w-full'>
-    <NavBar/>
+    <div className='w-full bg-[#d6d6d6]'>
     <Carousel
     allCars={allCars}
     clickMode='navigate'
@@ -67,7 +66,6 @@ const Home = () => {
     />
     <FAQs/>
     <GetInTouch/>
-    <Footer/>
     </div>
   )
 }

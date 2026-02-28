@@ -22,8 +22,8 @@ export const API_ROUTES = {
     GET_CARS_BY_DISCOUNT: "/cars/discount-car",
 
     //bookings
-    GET_MY_BOOKINGS: "/bookings/my-bookings",
+    GET_MY_BOOKINGS: "/bookings/auth/my-bookings",
     CREATE_BOOKING: "/bookings",
-    UPDATE_MY_BOOKING: "/bookings/update-my-booking/",
-    DELETE_MY_BOOKING: "/bookings"
+    UPDATE_MY_BOOKING: "/bookings/update-my-booking",
+    CANCEL_MY_BOOKING: "/bookings/cancel-my-booking"
 }

@@ -46,7 +46,7 @@ export const updateMyBooking = async (bookingId, { startDate, endDate }) => {
             payload.endDate = endDate;
         }
 
-        const response = await axiosInstance.patch(`${API_ROUTES.UPDATE_MY_BOOKING}/${bookingId}`);
+        const response = await axiosInstance.patch(`${API_ROUTES.UPDATE_MY_BOOKING}/${bookingId}`, payload);
 
         console.log("updateMyBooking() response: ", response);
         return response.data;
@@ -62,8 +62,7 @@ export const updateMyBooking = async (bookingId, { startDate, endDate }) => {
 
 export const cancelMyBooking = async (bookingId) => {
     try {
-        const response = await axiosInstance.delete(`${API_ROUTES.DELETE_MY_BOOKING}/${bookingId}`);
-
+        const response = await axiosInstance.patch(`${API_ROUTES.CANCEL_MY_BOOKING}/${bookingId}`);
         console.log("cancelMyBooking() response: ", response);
         return response.data;
     } catch (error) {

@@ -24,7 +24,7 @@ const BestDeals = ({discountedCar}) => {
   }, [selectedCarId])
 
   return (
-    <div className='px-25 mt-20'>
+    <div className='px-25 mt-15'>
       <div className='text-4xl font-bold tracking-wide text-center'>
         BEST DEALS
       </div>

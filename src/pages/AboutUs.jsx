@@ -30,8 +30,7 @@ const AboutUs = () => {
   ];
 
   return (
-    <div>
-        <NavBar/>
+    <div className="bg-[#d6d6d6]">
         <div className="bg-gray-50 min-h-screen font-sans">
         <section className="relative bg-blue-900 text-white py-24">
           <div className="absolute inset-0 overflow-hidden opacity-20">
@@ -105,7 +104,6 @@ const AboutUs = () => {
           </div>
         </section>
       </div>
-        <Footer/>
     </div>
   )
 }

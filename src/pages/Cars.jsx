@@ -128,8 +128,7 @@ const Cars = () => {
   }, [carIdFromUrl, resetRange]);
 
   return (
-    <div className='relative'>
-      <NavBar/>
+    <div className='relative bg-[#d6d6d6]'>
       <div className='flex flex-col justify-center items-center px-25'>
         <div className='w-full text-center mt-15 text-3xl font-bold'>
           Find Your Perfect Ride Today
@@ -170,7 +169,6 @@ const Cars = () => {
           onBookingSuccess={resetRange}
         />
       )}
-      <Footer/>
     </div>
   )
 }

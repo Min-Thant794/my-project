@@ -1,52 +1,299 @@
 import React, { useEffect, useState } from 'react'
 import DefaultImage from '../assets/default image.png'
 import { getAllCars } from '../services/car.service'
-import { toast } from 'react-toastify';
-import { NavLink } from 'react-router-dom';
+import { toast } from 'react-toastify'
+import { NavLink } from 'react-router-dom'
 
 const RideYourBook = () => {
-
-  const [car, setCar] = useState([]);
+  const [car, setCar] = useState([])
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const fetchCarImg = async () => {
     try {
-        const response = await getAllCars();
-
-        if(!response.success) {
-            toast.error("Unable to fetch cars");
-        }
-
-        const fetchedCar = response?.data;
-        setCar(fetchedCar);
+      setIsLoading(true)
+      const response = await getAllCars()
+      if (!response.success) {
+        toast.error('Unable to fetch cars')
+        return
+      }
+      setCar(response?.data ?? [])
     } catch (error) {
-        console.log("An Error Occurred at fetchCarImg()", error);
-        return;
+      console.error('Error in fetchCarImg():', error)
+      toast.error('Something went wrong. Please try again.')
+    } finally {
+      setIsLoading(false)
     }
   }
 
   useEffect(() => {
-    fetchCarImg();
-  }, []);
+    fetchCarImg()
+  }, [])
+
+  const carImageUrl = car?.[0]?.carImageUrl || DefaultImage
 
   return (
-    <div className='grid grid-cols-2 justify-between px-25 my-7'>
-        <div className='flex flex-col gap-3 justify-between mr-40'>
-            <div className='flex flex-col gap-5'>
-                <div className='font-extrabold text-4xl italic font-serif'>
-                The Keys to the City, right in Your Pocket
-                </div>
-                <div className='tracking-wide text-lg'>
-                    Unlock a car in seconds with Let's Drive. No long queues, no heavy paperwork! Just seamless mobility for your everyday needs.
-                </div>
+    <section
+      style={{
+        fontFamily: "'DM Sans', sans-serif",
+        borderBottom: '3px solid #434343',
+        margin: '0rem 6rem',
+        padding: '5rem 0rem',
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: '4rem',
+        alignItems: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Decorative background accent */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '-60px',
+          right: '38%',
+          width: '300px',
+          height: '300px',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(212,172,105,0.12) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Left: Content */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+        {/* Eyebrow label */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+          <span
+            style={{
+              display: 'inline-block',
+              width: '2rem',
+              height: '2px',
+              background: '#434343',
+            }}
+          />
+          <span
+            style={{
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              color: '#434343',
+            }}
+          >
+            Let's Drive
+          </span>
+        </div>
+
+        {/* Heading */}
+        <h2
+          style={{
+            fontFamily: "'Playfair Display', Georgia, serif",
+            fontSize: 'clamp(2rem, 3.5vw, 2.85rem)',
+            fontWeight: 800,
+            fontStyle: 'italic',
+            lineHeight: 1.15,
+            color: '#1a1a18',
+            margin: 0,
+            letterSpacing: '-0.01em',
+          }}
+        >
+          The Keys to the City,{' '}
+          <span
+            style={{
+              position: 'relative',
+              display: 'inline-block',
+              color: '#434343',
+            }}
+          >
+            Right in Your Pocket
+          </span>
+        </h2>
+
+        {/* Body text */}
+        <p
+          style={{
+            fontSize: '1rem',
+            lineHeight: 1.75,
+            color: '#5a5a52',
+            margin: 0,
+            maxWidth: '38ch',
+          }}
+        >
+          Unlock a car in seconds with Let's Drive. No long queues, no heavy
+          paperwork — just seamless mobility for your everyday needs.
+        </p>
+
+        {/* Stats row */}
+        <div style={{ display: 'flex', gap: '2.5rem' }}>
+          {[
+            { value: '500+', label: 'Vehicles' },
+            { value: '4.9★', label: 'Avg. Rating' },
+            { value: '24/7', label: 'Support' },
+          ].map(({ value, label }) => (
+            <div key={label} style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+              <span
+                style={{
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  fontWeight: 700,
+                  fontSize: '1.4rem',
+                  color: '#1a1a18',
+                }}
+              >
+                {value}
+              </span>
+              <span
+                style={{
+                  fontSize: '0.75rem',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: '#9a9a8e',
+                  fontWeight: 600,
+                }}
+              >
+                {label}
+              </span>
             </div>
-            <NavLink to={'/cars'} className='bg-footer text-amber-50 font-semibold p-2 text-center rounded-md shadow-xl w-3/10 cursor-pointer active:opacity-65 hover:opacity-90'>
-                Book Your Ride
-            </NavLink>
+          ))}
         </div>
-        <div className='w-full max-h-80'>
-            <img src={ car?.[0]?.carImageUrl || DefaultImage} alt="" className='w-full h-full object-fit rounded-md shadow-gray-700 shadow-[0_5px_10px_-5px_rgba(0,0,0,0.3)]' />
+
+        {/* CTA button */}
+        <NavLink
+          to="/cars"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.6rem',
+            alignSelf: 'flex-start',
+            background: '#000000',
+            color: '#f9f5ee',
+            fontWeight: 700,
+            fontSize: '0.9rem',
+            letterSpacing: '0.06em',
+            textTransform: 'uppercase',
+            padding: '0.85rem 2rem',
+            borderRadius: '4px',
+            textDecoration: 'none',
+            transition: 'background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease',
+            boxShadow: '0 8px 24px -8px rgba(26,26,24,0.35)',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.transform = 'translateY(-2px)'
+            e.currentTarget.style.boxShadow = '0 12px 28px -8px rgba(201,151,58,0.45)'
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.background = '#1a1a18'
+            e.currentTarget.style.transform = 'translateY(0)'
+            e.currentTarget.style.boxShadow = '0 8px 24px -8px rgba(26,26,24,0.35)'
+          }}
+          onMouseDown={e => {
+            e.currentTarget.style.transform = 'translateY(1px)'
+            e.currentTarget.style.opacity = '0.85'
+          }}
+          onMouseUp={e => {
+            e.currentTarget.style.transform = 'translateY(-2px)'
+            e.currentTarget.style.opacity = '1'
+          }}
+        >
+          Book Your Ride
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </NavLink>
+      </div>
+
+      {/* Right: Image */}
+      <div
+        style={{
+          position: 'relative',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          aspectRatio: '4 / 3',
+          boxShadow: '0 24px 20px -12px rgba(26,26,24,0.5)',
+        }}
+      >
+        {/* Skeleton loader */}
+        {(isLoading || !imageLoaded) && (
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(90deg, #e8e4dc 25%, #f0ece4 50%, #e8e4dc 75%)',
+              backgroundSize: '200% 100%',
+              animation: 'shimmer 1.4s infinite',
+              zIndex: 1,
+            }}
+          />
+        )}
+
+        <img
+          src={carImageUrl}
+          alt="Featured vehicle"
+          onLoad={() => setImageLoaded(true)}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+            opacity: imageLoaded ? 1 : 0,
+            transition: 'opacity 0.5s ease',
+          }}
+        />
+
+        {/* Gradient overlay for depth */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'linear-gradient(to top, rgba(26,26,18,0.35) 0%, transparent 55%)',
+            pointerEvents: 'none',
+          }}
+        />
+
+        {/* Bottom label badge */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '1.25rem',
+            left: '1.25rem',
+            background: 'rgba(255,255,255,0.12)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255,255,255,0.2)',
+            borderRadius: '6px',
+            padding: '0.4rem 0.85rem',
+            color: '#fff',
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+          }}
+        >
+          Available Now
         </div>
-    </div>
+      </div>
+
+      {/* Shimmer keyframe */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700;1,800&family=DM+Sans:wght@400;600;700&display=swap');
+        @keyframes shimmer {
+          0%   { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+      `}</style>
+    </section>
   )
 }
 

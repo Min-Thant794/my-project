@@ -23,8 +23,8 @@ const FAQs = () => {
         </div>
         {
             faqs.map((faq, index) => (
-                <div key={faq.question} className='flex flex-col gap-3 '>
-                    <div className='flex z-10 justify-between cursor-pointer items-center bg-footer rounded-lg text-2xl font-semibold shadow-lg text-amber-50 px-7 py-3'>
+                <div key={faq.question} className='flex flex-col gap-3'>
+                    <div className='flex z-10 justify-between cursor-pointer items-center bg-footer shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] shadow-gray-700 rounded-lg text-2xl font-semibold text-amber-50 px-7 py-3'>
                         <div 
                         onClick={() => toggleFAQ(index)}
                         className='w-19/20 select-none'>
@@ -43,7 +43,7 @@ const FAQs = () => {
                       }`}
                     >
                         <div className='overflow-hidden'>
-                            <div className='px-7 py-5 bg-[#d6d6d6] tracking-wide font-semibold rounded-lg'>
+                            <div className='px-7 py-5 bg-[#a4a4a4] shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] shadow-gray-700 tracking-wide font-semibold rounded-lg'>
                                 {faq.answer}
                             </div>
                         </div>

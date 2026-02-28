@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import CurrentLocation from './CurrentLocation';
 import emailjs from '@emailjs/browser'
-import { EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY, EMAILJS_ADMIN_EMAIL } from '../config/config'
+import { EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, EMAILJS_PUBLIC_KEY } from '../config/config'
 
 emailjs.init(EMAILJS_PUBLIC_KEY);
 
@@ -30,14 +30,14 @@ const GetInTouch = () => {
         <div className='text-4xl font-bold w-full text-center py-10'>
             Get in Touch
         </div>
-        <div className='flex bg-[#d6d6d6] rounded-xl px-10 py-5'>
+        <div className='flex bg-[#a4a4a4] rounded-xl px-10 py-5 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] shadow-gray-700'>
             <form ref={form}
             onSubmit={sendEmail}
             className='flex flex-col justify-between w-1/2 border-r-3 pr-10 border-amber-50'>
                 <div className='flex flex-col gap-5'>
                     <div className='flex flex-col gap-3'>
                         <label htmlFor="name" className='text-xl font-bold'>Name</label>
-                        <input type="text" name='name' placeholder='Enter your name' className='outline-none bg-[#eaeaea] rounded-lg px-2 py-2' />
+                        <input type="text" name='name' placeholder='Enter your name' className='required outline-none bg-[#eaeaea] rounded-lg px-2 py-2' />
                     </div>
                     <div className='flex flex-col gap-3'>
                         <label htmlFor="email" className='text-xl font-bold'>Email</label>
@@ -58,7 +58,7 @@ const GetInTouch = () => {
                     </div>
                 </div>
                 <button
-                type='submit' className='rounded-full shadow-2xl cursor-pointer active:opacity-65 py-2 mt-7 mb-2 bg-footer text-amber-50 font-semibold tracking-wide'>
+                type='submit' className='transition-all duration-500 hover:translate-x-0.5 hover:-translate-y-0.5 rounded-full shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] shadow-gray-700 cursor-pointer active:opacity-65 hover:opacity-90 py-2 mt-7 mb-2 bg-footer text-amber-50 font-semibold tracking-wide'>
                     Submit
                 </button>
             </form>
