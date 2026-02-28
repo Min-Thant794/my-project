@@ -1,5 +1,5 @@
 import React from 'react'
-import { motion } from 'framer-motion'
+import { motion as Motion } from 'framer-motion'
 
 // Define the animation states (Fade in and slide up slightly)
 const animationConfiguration = {
@@ -10,7 +10,7 @@ const animationConfiguration = {
 
 const PageTransition = ({ children }) => {
   return (
-    <motion.div
+    <Motion.div
       variants={animationConfiguration}
       initial="initial"
       animate="animate"
@@ -18,7 +18,7 @@ const PageTransition = ({ children }) => {
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       {children}
-    </motion.div>
+    </Motion.div>
   )
 }
 

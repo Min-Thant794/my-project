@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import NavBar from '../components/NavBar'
 import Footer from '../components/Footer'
 import Carousel from '../components/HomePageCarousel'
@@ -9,6 +9,7 @@ import { addDays } from 'date-fns'
 import { FaGreaterThan, FaLessThan } from 'react-icons/fa6'
 import { IoClose } from 'react-icons/io5'
 import { FaSearch } from 'react-icons/fa'
+import { toast } from 'react-toastify'
 
 const Deals = () => {
 
@@ -19,7 +20,6 @@ const Deals = () => {
   const [discountedCar, setDiscountedCar] = useState([]);
   const [selectedCarId, setSelectedCarId] = useState(null);
   const [selectedCar, setSelectedCar] = useState(null);
-  const [open, setOpen] = useState(false);
 
   const minDate = useMemo(() => addDays(new Date(), 1), []);
   const maxDate = useMemo(() => addDays(new Date(), 90), []);
@@ -37,7 +37,7 @@ const Deals = () => {
 
   const limit = 12;
   
-  const fetchDealCars = async () => {
+  const fetchDealCars = useCallback(async () => {
     try {
       const response = await getCarsByDiscount({ page: currentPage, limit, q: query, mode });
 
@@ -55,7 +55,7 @@ const Deals = () => {
       console.log("An Error Occurred at fetchDealCars!", error);
       toast.error("Unable to fetch discounted car");
     }
-  };
+  }, [currentPage, limit, query]);
 
   const fetchFilteredCar = async () => {
     try {
@@ -95,7 +95,7 @@ const Deals = () => {
     } else {
       fetchDealCars();
     }
-  }, [currentPage, selectedDiscount, query, mode]);
+  }, [fetchDealCars, fetchFilteredCar, selectedDiscount]);
 
   useEffect(() => {
     document.body.style.overflow = selectedCarId ? 'hidden' : 'auto';
@@ -106,7 +106,7 @@ const Deals = () => {
 
   useEffect(() => {
     if (currentPage > totalPages) setCurrentPage(totalPages);
-  }, [totalPages]);
+  }, [currentPage, totalPages]);
 
   return (
     <div className='bg-[#d6d6d6]'>
@@ -116,7 +116,7 @@ const Deals = () => {
           </div>
           <Carousel
           allCars={discountedCar}
-          clickFromHome={false}
+          clickMode="modal"
           />
         </div>
         <div className='w-full flex justify-end items-center px-25 mt-10'>
@@ -129,14 +129,10 @@ const Deals = () => {
                     setMode("typeahead");
                     setQuery(e.target.value);
                     setCurrentPage(1);
-                    setOpen(true);
                 }}
-                onFocus={() => query.trim() && setOpen(true)}
-                onBlur={() => setTimeout(() => setOpen(false), 150)}
                 onKeyDown={(e) => {
                     if(e.key === "Enter"){
                         setMode("contains");
-                        setOpen(false);
                     }
                 }}
                 placeholder='Search for vehicle' 
