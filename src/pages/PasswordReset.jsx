@@ -67,7 +67,7 @@ const PasswordReset = () => {
             }}
             className='flex flex-col w-1/2 py-20 gap-3 px-20'>
                 <div className='text-2xl font-bold text-amber-50'>
-                    Hello user{}!
+                    Hello user!
                 </div>
                 <div className='text-lg font-bold pb-5 text-amber-50'>
                     Please update your password
