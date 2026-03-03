@@ -39,7 +39,7 @@ const PasswordReset = () => {
 
         const response = await resetPassword({ token, newPassword });
 
-        toast.success(response?.message || "Password reset successfully");
+        toast.success(response?.data?.message || "Password reset successfully");
         navigate("/");
     } catch (error) {
         console.log("An Error Occurred at handleSubmit()", error);
