@@ -8,7 +8,6 @@ import FAQs from '../components/FAQs'
 import GetInTouch from '../components/GetInTouch'
 import { getAllCars, getCarsByDiscount } from '../services/car.service'
 import { toast } from 'react-toastify'
-import { NavLink } from 'react-router-dom'
 
 const Home = () => {
 
