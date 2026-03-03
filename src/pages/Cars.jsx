@@ -1,18 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import NavBar from '../components/NavBar'
-import Footer from '../components/Footer'
-import SearchBar from '../components/SearchBar'
 import FilterCar from '../components/FilterCar'
 import SearchVehicle from '../components/SearchVehicle'
 import { getAllCars, getCarById } from '../services/car.service'
 import { toast } from 'react-toastify'
-import CarDetails from '../modals/CarDetails'
+import CarDetails from '../components/CarDetails'
 import { normalizeToSingaporeMidnightISO } from '../helpers/normalizeLocalTime'
 import { addDays } from 'date-fns'
 import { useSearchParams } from 'react-router-dom'
+import { useUser } from '../hooks/useUser'
 
 const Cars = () => {
 
+  const { userData } = useUser();
   const [searchParams, setSearchParams] = useSearchParams();
   const carIdFromUrl = searchParams.get("carId");
   const minDate = useMemo(() => addDays(new Date(), 1), []);
@@ -57,7 +56,11 @@ const Cars = () => {
   }, [resetRange, searchParams, setSearchParams]);
 
   useEffect(() => {
-    document.body.style.overflow = selectedCarId ? 'hidden' : 'auto';
+    if(!userData) {
+      return;
+    } else {
+      document.body.style.overflow = selectedCarId ? 'hidden' : 'auto'
+    }
     return () => {
       document.body.style.overflow = 'auto';
     };
@@ -156,7 +159,7 @@ const Cars = () => {
         setSelectedCarId={setSelectedCarId}
         />
       </div>
-      {selectedCarId && selectedCar && (
+      {userData && selectedCarId && selectedCar && (
         <CarDetails
           selectedCarId={selectedCarId}
           setSelectedCarId={setSelectedCarId}

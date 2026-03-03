@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import Logo from '../assets/logo.png'
 import Login from '../pages/Login'
 import { useUser } from '../hooks/useUser'
-import UserDetails from '../modals/UserDetails'
+import UserDetails from './UserDetails'
 import defaultImage from '../assets/default image.png'
 
 const NavBar = () => {

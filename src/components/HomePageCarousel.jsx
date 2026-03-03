@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { addDays } from 'date-fns';
-import CarDetails from '../modals/CarDetails';
+import CarDetails from './CarDetails';
 import { useNavigate } from 'react-router-dom';
 import defaultImage from '../assets/default image.png';
 

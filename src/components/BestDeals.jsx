@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import defaultImage from '../assets/default image.png'
-import CarDetails from '../modals/CarDetails';
+import CarDetails from './CarDetails';
 import { getCarById } from '../services/car.service';
 
 const BestDeals = ({discountedCar}) => {

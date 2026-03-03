@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import NavBar from '../components/NavBar'
-import Footer from '../components/Footer'
 import Carousel from '../components/HomePageCarousel'
 import defaultImage from '../assets/default image.png'
 import { getCarsByDiscount } from '../services/car.service'
-import CarDetails from '../modals/CarDetails'
+import CarDetails from '../components/CarDetails'
 import { addDays } from 'date-fns'
 import { FaGreaterThan, FaLessThan } from 'react-icons/fa6'
 import { IoClose } from 'react-icons/io5'
@@ -57,7 +55,7 @@ const Deals = () => {
     }
   }, [currentPage, limit, query]);
 
-  const fetchFilteredCar = async () => {
+  const fetchFilteredCar = useCallback(async () => {
     try {
       const response = await getCarsByDiscount({
         page: currentPage,
@@ -76,7 +74,7 @@ const Deals = () => {
       console.error("Failed to fetch filtered cars", error);
       toast.error("Unable to fetch filtered cars");
     }
-  };
+  }, [currentPage, limit, selectedDiscount]);
 
   const openCarDetails = (car) => {
   setSelectedCarId(car._id);
@@ -172,7 +170,6 @@ const Deals = () => {
               onClick={() => {
                 setSelectedDiscount(null);
                 setCurrentPage(1);
-                fetchDealCars();
               }}
               className='w-3/5 font-semibold tracking-wide flex gap-2 justify-center items-center active:opacity-65 hover:opacity-90 cursor-pointer px-2 py-2 rounded-lg bg-[#d2d2d2]'>
                 <div>
