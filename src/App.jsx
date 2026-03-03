@@ -21,10 +21,8 @@ const AnimatedRoutes = () => {
   return (
     /* mode="wait" ensures the current page fades out before the next one fades in */
     <AnimatePresence mode="wait">
-
-      <Route path='reset-password' element={<PageTransition><PasswordReset/></PageTransition>}/>
-
       <Routes location={location} key={location.pathname}>
+        <Route path='reset-password' element={<PageTransition><PasswordReset/></PageTransition>}/>
         <Route element={<Layout/>}>
           <Route path='/login' element={<PageTransition><Login/></PageTransition>}/>
           <Route path='/' element={<PageTransition><Home/></PageTransition>}/>
@@ -32,9 +30,8 @@ const AnimatedRoutes = () => {
           <Route path='/cars' element={<PageTransition><Cars/></PageTransition>}/>
           <Route path='/booking' element={<PageTransition><Booking/></PageTransition>}/>
           <Route path='/about-us' element={<PageTransition><AboutUs/></PageTransition>}/>
-          
-          <Route path='*' element={<PageTransition><NotFound/></PageTransition>}/>
         </Route>
+        <Route path='*' element={<PageTransition><NotFound/></PageTransition>}/>
       </Routes>
     </AnimatePresence>
   )

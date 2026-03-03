@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import loginVideo from '../assets/loginVideo.mp4'
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -15,7 +15,13 @@ const PasswordReset = () => {
 
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const token = useMemo(() => params.get("token"), [params])
+  const token = useMemo(() => params.get("token"), [params]);
+
+  useEffect(() => {
+    if(!token) {
+        navigate('*');
+    }
+  }, [token, navigate]);
 
   const handleSubmit = async () => {
     try {
@@ -25,18 +31,13 @@ const PasswordReset = () => {
         }
 
         if(newPassword !== confirmNewPassword) {
-            toast.error("New password must be different from current password");
+            toast.error("New password must not be different from current password");
             return;
         }
 
         setIsLoading(true);
 
         const response = await resetPassword({ token, newPassword });
-
-        if(!response?.success) {
-            toast.error(response?.message || "Failed to reset password");
-            return;
-        }
 
         toast.success(response?.message || "Password reset successfully");
         navigate("/");
@@ -122,7 +123,7 @@ const PasswordReset = () => {
                 type='submit'
                 disabled={isLoading}
                 className='transition duration-300 w-full bg-[#222222] text-center py-2 cursor-pointer rounded-md font-bold active:opacity-65 hover:opacity-80 text-amber-50 tracking-wider mt-5'>
-                    {isLoading ? 'Logging in...' : 'Login'}
+                    {isLoading ? 'Loading...' : 'Submit'}
                 </button>
             </form>
         </div>

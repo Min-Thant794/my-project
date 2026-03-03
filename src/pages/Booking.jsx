@@ -3,8 +3,6 @@ import { DateRange } from 'react-date-range';
 import { addDays } from 'date-fns';
 import { cancelMyBooking, getMyBooking, updateMyBooking } from '../services/booking.service'
 import { toast } from 'react-toastify';
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
 
 const Booking = () => {
 

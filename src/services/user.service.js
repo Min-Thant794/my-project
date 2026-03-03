@@ -69,10 +69,10 @@ export const updateUser = async(id, payload) => {
 
 export const resetPassword = async ({ token, newPassword }) => {
  try {
-    const response = await axiosInstance.post(`${API_ROUTES.RESET_PASSWORD}/`, token, newPassword);
+    const response = await axiosInstance.post(API_ROUTES.RESET_PASSWORD, {token, newPassword});
 
-    if(!response?.success) {
-        console.log("password reset failed: ", response?.message);
+    if(!response.success) {
+        console.log("password reset failed: ", response?.data?.message);
         return;
     }
 
