@@ -3,7 +3,6 @@
 /* Enable smooth scrolling globally */
 html {
     scroll-behavior: smooth;
-    scrollbar-gutter: stable;
 }
 
 /* primary color */

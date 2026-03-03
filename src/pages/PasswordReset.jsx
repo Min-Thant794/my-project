@@ -1,19 +1,48 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import loginVideo from '../assets/loginVideo.mp4'
 import { FaEye, FaEyeSlash } from 'react-icons/fa6';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { resetPassword } from '../services/user.service';
 
 const PasswordReset = () => {
 
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [isShowPassword, setIsShowPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isShowNewPassword, setIsShowNewPassword] = useState(false);
+  const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
+
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const token = useMemo(() => params.get("token"), [params])
 
   const handleSubmit = async () => {
     try {
+        if(!token) {
+            toast.error("Invalid reset link or missing token.");
+            return;
+        }
+
+        if(newPassword !== confirmNewPassword) {
+            toast.error("New password must be different from current password");
+            return;
+        }
+
         setIsLoading(true);
+
+        const response = await resetPassword({ token, newPassword });
+
+        if(!response?.success) {
+            toast.error(response?.message || "Failed to reset password");
+            return;
+        }
+
+        toast.success(response?.message || "Password reset successfully");
+        navigate("/");
     } catch (error) {
         console.log("An Error Occurred at handleSubmit()", error);
+        toast.error(error?.response?.data?.message || "Internal Server Error!");
     } finally {
         setIsLoading(false);
     }
@@ -35,47 +64,59 @@ const PasswordReset = () => {
                 e.preventDefault();
                 handleSubmit();
             }}
-            className='flex flex-col w-1/2 py-20 gap-2 px-20'>
+            className='flex flex-col w-1/2 py-20 gap-3 px-20'>
                 <div className='text-2xl font-bold text-amber-50'>
                     Hello user{}!
                 </div>
                 <div className='text-lg font-bold pb-5 text-amber-50'>
-                    Please reset your password
+                    Please update your password
                 </div>
-                <div className='flex flex-col w-full pb-5'>
-                    <label htmlFor="username" className='w-full font-semibold text-amber-50'>Username</label>
-                    <input required type="text" id='username' value={userName} 
-                    autoComplete='username'
-                    placeholder='Enter Your Username' 
-                    onChange={(e) => setUserName(e.target.value)}
-                    className='rounded-md text-amber-50 placeholder:font-semibold  border-none outline-none'/>
 
-                    {errorUserNameMsg && <p className="text-red-300 text-sm">{errorUserNameMsg}</p>}
-                </div>
                 <div className='flex flex-col w-full'>
-                    <label htmlFor="password" className='w-full font-semibold text-amber-50'>Password</label>
+                    <label htmlFor="password" className='w-full font-semibold text-amber-50'>New Password</label>
                     <div className='flex  items-center w-full'>
-                        <input type={isShowPassword ? 'text' : 'password'} 
-                        autoComplete='current-password'
+                        <input type={isShowNewPassword ? 'text' : 'password'}
                         required
-                        id='password'
-                        value={password}
-                        placeholder='Enter Your Password' 
-                        onChange={(e) => setPassword(e.target.value)}
+                        id='newPassword'
+                        value={newPassword}
+                        placeholder='Enter Your New Password' 
+                        onChange={(e) => setNewPassword(e.target.value)}
                         className='w-9/10 border-none outline-none text-amber-50 placeholder:font-semibold' />
                         <div
                         type="button"
-                        onClick={() => setIsShowPassword(!isShowPassword)}
+                        onClick={() => setIsShowNewPassword(!isShowNewPassword)}
                         className='flex items-center justify-center w-1/10 cursor-pointer active:opacity-60'>
                             {
-                                isShowPassword ?
+                                isShowNewPassword ?
                                 <FaEye className='text-amber-50'/>
                                 :
                                 <FaEyeSlash className='text-amber-50'/>
                             }
                         </div>
                     </div>
-                    {errorPasswordMsg && <p className="text-red-300 text-sm">{errorPasswordMsg}</p>}
+                </div>
+                <div className='flex flex-col w-full'>
+                    <label htmlFor="password" className='w-full font-semibold text-amber-50'>Confirm New Password</label>
+                    <div className='flex  items-center w-full'>
+                        <input type={isShowConfirmPassword ? 'text' : 'password'}
+                        required
+                        id='password'
+                        value={confirmNewPassword}
+                        placeholder='Enter Your Current Password' 
+                        onChange={(e) => setConfirmNewPassword(e.target.value)}
+                        className='w-9/10 border-none outline-none text-amber-50 placeholder:font-semibold' />
+                        <div
+                        type="button"
+                        onClick={() => setIsShowConfirmPassword(!isShowConfirmPassword)}
+                        className='flex items-center justify-center w-1/10 cursor-pointer active:opacity-60'>
+                            {
+                                isShowConfirmPassword ?
+                                <FaEye className='text-amber-50'/>
+                                :
+                                <FaEyeSlash className='text-amber-50'/>
+                            }
+                        </div>
+                    </div>
                 </div>
                 <button 
                 type='submit'

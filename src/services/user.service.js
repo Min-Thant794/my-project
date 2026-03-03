@@ -66,3 +66,24 @@ export const updateUser = async(id, payload) => {
         }
     }
 }
+
+export const resetPassword = async ({ token, newPassword }) => {
+ try {
+    const response = await axiosInstance.post(`${API_ROUTES.RESET_PASSWORD}/`, token, newPassword);
+
+    if(!response?.success) {
+        console.log("password reset failed: ", response?.message);
+        return;
+    }
+
+    console.log("resetPassword response(): ", response);
+    return response?.data;
+ } catch (error) {
+    console.log("An Error Occurred at resetPassword()", error);
+    return {
+        success: false,
+        message: error?.response?.data?.message || "Internal Server Error",
+        error
+    }
+ }   
+}
