@@ -23,12 +23,14 @@ const Login = ({setClickLogin}) => {
   const [passwordRequired, setPasswordRequired] = useState("");
 
   useEffect(() => {
-    if(isSignUpForm) {
-        document.body.style.overflow = "hidden";
-    } else {
-        document.body.style.overflow = "auto";
-    }
-  }, [isSignUpForm])
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+
+    return (() => {
+        document.documentElement.style.overflow = "";
+        document.body.style.overflow = "";
+    })
+  }, []);
 
   const toggleRememberMe = () => {
     setIsRemember(!isRemember);
@@ -105,7 +107,7 @@ const Login = ({setClickLogin}) => {
   return (
     <div 
     onClick={() => setClickLogin(false)}
-    className='absolute flex justify-center items-center w-full inset-0 h-200 z-50 bg-black/10'>
+    className='fixed inset-0 z-50 flex justify-center items-center w-full inset-0 h-215 bg-black/10'>
         {
             isSignUpForm ?
             <Signup
@@ -117,7 +119,7 @@ const Login = ({setClickLogin}) => {
             onClick={(e) => {
                 e.stopPropagation();
             }}
-            className='bg-[#a4a4a4] relative rounded-xl flex w-1/2 h-7/10 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] shadow-gray-700 justify-center items-center'>
+            className='bg-[#a4a4a4] relative rounded-xl flex w-1/2 h-6/10 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] shadow-gray-700 justify-center items-center'>
                 <div className='w-1/2 h-full'>
                     <img src={LoginImg} className='h-full w-full rounded-tl-xl rounded-bl-xl object-fit' />
                 </div>
