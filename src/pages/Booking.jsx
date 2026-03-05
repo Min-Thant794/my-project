@@ -12,6 +12,15 @@ const Booking = () => {
   const [isSelectedFilter, setIsSelectedFilter] = useState("All")
   const minDate = useMemo(() => addDays(new Date(), 1), []);
   const maxDate = useMemo(() => addDays(new Date(), 90), []);
+
+  const statusColors = {
+    Pending: "bg-yellow-500",
+    Confirmed: "bg-green-500",
+    Completed: "bg-blue-500",
+    Expired: "bg-[#434343]",
+    Cancelled: "bg-red-500"
+  }
+
   const buildDefaultRange = useCallback(() => ([
     {
       startDate: minDate,
@@ -170,7 +179,7 @@ const Booking = () => {
                         </div>
                       </div>
                     </div>
-                    <div className={`px-2 py-1 text-sm font-bold text-amber-50 ${booking?.bookingStatus === "Cancelled" ? "bg-[#ff0000]" : "bg-footer"} rounded-full text-center flex justify-center items-center shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)]`}>
+                    <div className={`px-2 py-1 text-sm font-bold text-amber-50 ${statusColors[booking?.bookingStatus] || "bg-footer"} rounded-full text-center flex justify-center items-center shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)]`}>
                       {booking?.bookingStatus}
                     </div>
                   </div>

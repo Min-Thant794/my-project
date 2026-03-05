@@ -143,7 +143,7 @@ const UserDetails = ({setIsUserDetails}) => {
     onClick={() => {
         setIsUserDetails(false)
     }}
-    className='absolute flex justify-center items-center w-full inset-0 h-200 z-50 bg-black/10'>
+    className='absolute flex justify-center items-center w-full inset-0 h-215 z-50 bg-black/10'>
         <div 
         onClick={(e) => {
             e.stopPropagation();

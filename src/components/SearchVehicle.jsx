@@ -58,7 +58,7 @@ const SearchVehicle = ({allCars, currentPage, setCurrentPage, totalPages, query,
                     className='flex transition-all duration-700 hover:translate-1 flex-col w-full h-full gap-3 bg-[#d6d6d6] rounded-xl shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] px-5 pt-5'>
                         <div className='flex justify-between items-center'>
                             <div className='text-xl font-bold'>{car.carName}</div>
-                            <div className='w-3/8'>
+                            <div className='w-2/5'>
                                 <div className='flex items-center w-full text-center'>
                                     {
                                         car?.discount &&

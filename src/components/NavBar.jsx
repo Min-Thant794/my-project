@@ -88,7 +88,7 @@ const NavBar = () => {
         expandUserIcon && 
         <div 
         onClick={() => setExpandUserIcon(false)}
-        className='absolute inset-0 w-full h-200 bg-black/20'>
+        className='absolute inset-0 w-full h-220 bg-black/10'>
           <div 
           onClick={(e) => {
             e.stopPropagation();

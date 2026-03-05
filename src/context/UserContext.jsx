@@ -50,7 +50,7 @@ export const UserProvider = ({ children }) => {
         try {
             await axiosInstance.post(API_ROUTES.LOGOUT_USER);
             localStorage.removeItem("rememberMe");
-            toast.success("Logged out successfully!");
+            toast.success("Logged out");
         } catch (error) {
             console.error("Failed to logout from server", error);
         }

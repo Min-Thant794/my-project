@@ -33,7 +33,7 @@ const FilterCar = ({ filters, setFilters, setCurrentPage }) => {
           {isFiltered && (
             <div
               onClick={clearFilter}
-              className="absolute top-18 right-3 text-white w-3/10 font-bold tracking-wide flex gap-2 justify-center items-center active:opacity-65 hover:opacity-90 cursor-pointer px-2 py-2 rounded-lg bg-[#909090]"
+              className="absolute top-18 right-3 text-white w-1/3 font-bold tracking-wide flex gap-2 justify-center items-center active:opacity-65 hover:opacity-90 cursor-pointer px-2 py-2 rounded-lg bg-[#909090]"
             >
               <div>Clear Filter</div>
               <div className="mt-1">

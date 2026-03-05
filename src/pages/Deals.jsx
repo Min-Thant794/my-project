@@ -166,19 +166,22 @@ const Deals = () => {
               ))}
             </div>
             <div className='flex justify-end items-center w-full pt-5'>
-              <div 
-              onClick={() => {
-                setSelectedDiscount(null);
-                setCurrentPage(1);
-              }}
-              className='w-3/5 font-semibold tracking-wide flex gap-2 justify-center items-center active:opacity-65 hover:opacity-90 cursor-pointer px-2 py-2 rounded-lg bg-[#d2d2d2]'>
-                <div>
-                  Clear Filter
+              {
+                selectedDiscount &&
+                <div 
+                onClick={() => {
+                  setSelectedDiscount(null);
+                  setCurrentPage(1);
+                }}
+                className='w-3/5 font-semibold tracking-wide flex gap-2 justify-center items-center active:opacity-65 hover:opacity-90 cursor-pointer px-2 py-2 rounded-lg bg-[#d2d2d2]'>
+                  <div>
+                    Clear Filter
+                  </div>
+                  <div className='mt-1'>
+                    <IoClose className='text-xl'/>
+                  </div>
                 </div>
-                <div className='mt-1'>
-                  <IoClose className='text-xl'/>
-                </div>
-              </div>
+              }
             </div>
           </div>
           <div className='col-span-8 grid grid-cols-3 gap-6 ml-7 mr-25'>
@@ -189,7 +192,7 @@ const Deals = () => {
                 className='flex transition-all duration-700 hover:translate-1 flex-col w-full h-full gap-3 bg-[#d6d6d6] rounded-xl shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] px-5 pt-5'>
                   <div className='flex justify-between items-start'>
                     <div className='text-2xl font-bold'>{car?.carName}</div>
-                    <div className='flex justify-center items-center w-2/7 text-center'>
+                    <div className='flex justify-center items-center w-3/9 text-center'>
                       <div className='font-bold h-full w-full bg-footer text-amber-50 py-1 select-none px-2 shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] rounded-full'>{car.discount}% OFF</div>
                     </div>
                   </div>
