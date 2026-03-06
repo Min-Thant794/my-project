@@ -107,7 +107,7 @@ const Login = ({setClickLogin}) => {
   return (
     <div 
     onClick={() => setClickLogin(false)}
-    className='fixed inset-0 z-50 flex justify-center items-center w-full inset-0 h-215 bg-black/10'>
+    className='fixed inset-0 z-50 flex justify-center items-center w-full h-215 bg-black/10'>
         {
             isSignUpForm ?
             <Signup
