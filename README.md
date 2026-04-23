@@ -181,12 +181,12 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
          └──────────────────┬────────────────┘
                             │
                   ┌─────────▼─────────┐
-                  │    Backend API     │
-                  │  (Node + Express)  │
+                  │    Backend API    │
+                  │  (Node + Express) │
                   └─────────┬─────────┘
                             │
                   ┌─────────▼─────────┐
-                  │      MongoDB       │
+                  │      MongoDB      │
                   └───────────────────┘
 ```
 
