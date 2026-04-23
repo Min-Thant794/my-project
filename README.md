@@ -42,7 +42,7 @@ The project was intentionally structured to go beyond a typical university submi
 | 🚘 **Car Browsing & Search** | Explore the full fleet with search and filtering options |
 | 📅 **Booking System** | Pick dates, select a car, and confirm a rental |
 | 👤 **Profile Management** | View and update personal account information |
-| 📱 **Responsive UI** | Fully responsive design across desktop and mobile |
+<!-- | 📱 **Responsive UI** | Fully responsive design across desktop and mobile | -->
 
 ---
 
@@ -197,6 +197,10 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 IRBS was built over **4 months** as a BSc Computer Science Individual Project. Rather than treating it as a standard academic exercise, the aim was to simulate a real-world development workflow — separating the system into three independent repositories, designing a proper REST API, implementing JWT authentication, and delivering a polished, responsive frontend.
 
 ---
+
+## Author
+
+**Min Thant Tun** — [@Min-Thant794](https://github.com/Min-Thant794)
 
 ## 📄 License
 
