@@ -72,10 +72,12 @@ const NavBar = () => {
             </div>
           )
           :
-          <div
-          onClick={() => setClickLogin(!clickLogin)}
-          className='bg-footer rounded-md px-5 cursor-pointer active:opacity-65 hover:opacity-90 py-1 text-amber-50 tracking-wide'>
-            Login
+          <div className='justify-end'>
+            <div
+            onClick={() => setClickLogin(!clickLogin)}
+            className='bg-footer rounded-md px-5 cursor-pointer active:opacity-65 hover:opacity-90 py-1 text-amber-50 tracking-wide'>
+              Login
+            </div>
           </div>
         }
       </div>

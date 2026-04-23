@@ -61,7 +61,7 @@ const HomePageCarousel = ({allCars = [], clickMode = "modal"}) => {
   }
 
   return (
-    <div className="relative w-7/10 mx-auto mt-5 md:p-5 rounded-md flex flex-col items-center">
+    <div className="relative w-7/10 mx-auto mt-15 md:p-5 rounded-md flex flex-col items-center">
       <div className="w-full h-full aspect-video rounded-3xl overflow-hidden relative shadow-gray-700 shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)]">
         <div
           className="flex w-full h-full transition-transform duration-700 ease-in-out"
