@@ -206,4 +206,4 @@ IRBS was built over **4 months** as a BSc Computer Science Individual Project. R
 
 ## 📄 License
 
-This project was built for academic purposes. All rights reserved © Min Thant.
+This project was built for academic purposes. All rights reserved © Min Thant Tun.
