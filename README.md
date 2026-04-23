@@ -202,6 +202,8 @@ IRBS was built over **4 months** as a BSc Computer Science Individual Project. R
 
 **Min Thant Tun** — [@Min-Thant794](https://github.com/Min-Thant794)
 
+---
+
 ## 📄 License
 
 This project was built for academic purposes. All rights reserved © Min Thant.
