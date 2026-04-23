@@ -172,9 +172,9 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 ## 🏗️ System Architecture
 
 ```
-┌──────────────────────┐        ┌──────────────────────┐
-│    Customer UI        │        │   Admin Dashboard     │
-│  (React + Tailwind)   │        │  (React + Tailwind)   │
+┌──────────────────────┐        ┌───────────────────────┐
+│    Customer UI       │        │   Admin Dashboard     │
+│  (React + Tailwind)  │        │  (React + Tailwind)   │
 └────────┬─────────────┘        └────────────┬──────────┘
          │                                   │
          │              REST API             │
