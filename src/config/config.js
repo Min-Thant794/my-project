@@ -3,8 +3,8 @@ export const EMAILJS_SERVICE_ID =  import.meta.env.VITE_EMAILJS_SERVICE_ID;
 export const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 export const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 export const EMAILJS_ADMIN_EMAIL = import.meta.env.VITE_EMAILJS_ADMIN_EMAIL;
-const API_BASE_URL = import.meta.VITE_API_BASE_URL || "https://car-rental-backend-h2sh.onrender.com/";
-const VITE_SERVER_URL = import.meta.VITE_SERVER_URL || "https://car-rental-backend-h2sh.onrender.com/";
+const API_BASE_URL = import.meta.VITE_API_BASE_URL || "http://localhost:8100/api/v1";
+const VITE_SERVER_URL = import.meta.VITE_SERVER_URL || "http://localhost:8100/";
 
 export const API_ROUTES = {
     LOCAL_BASE_URL: API_BASE_URL,
