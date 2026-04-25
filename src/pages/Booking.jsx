@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 const Booking = () => {
 
   const [myBookings, setMyBookings] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [, setIsLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(null);
   const [isSelectedFilter, setIsSelectedFilter] = useState("All")
   const minDate = useMemo(() => addDays(new Date(), 1), []);

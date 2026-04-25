@@ -53,7 +53,7 @@ const Deals = () => {
       console.log("An Error Occurred at fetchDealCars!", error);
       toast.error("Unable to fetch discounted car");
     }
-  }, [currentPage, limit, query]);
+  }, [currentPage, limit, mode, query]);
 
   const fetchFilteredCar = useCallback(async () => {
     try {

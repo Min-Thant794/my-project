@@ -3,16 +3,17 @@ import { API_ROUTES } from "./config";
 import { getMemToken } from "../utils/authToken";
 
 const axiosInstance = axios.create({
-    baseURL: API_ROUTES.LOCAL_SERVER_URL,
+    baseURL: API_ROUTES.BASE_URL,
     withCredentials: true,
     //timeout: 10000
 });
 
-axiosInstance.interceptors.response.use(
+axiosInstance.interceptors.request.use(
     (config) => {
         const memToken = getMemToken();
 
         if(memToken) {
+            config.headers = config.headers || {};
             config.headers.Authorization = `Bearer ${memToken}`;
         }
 

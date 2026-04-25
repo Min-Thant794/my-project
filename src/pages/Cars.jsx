@@ -64,7 +64,7 @@ const Cars = () => {
     return () => {
       document.body.style.overflow = 'auto';
     };
-  }, [selectedCarId]);
+  }, [selectedCarId, userData]);
 
   const fetchAllCars = useCallback(async () => {
     try {
