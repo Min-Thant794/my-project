@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import DefaultImage from '../assets/default image.png'
+import DefaultImage from '../assets/defaultImage.png'
 import { getAllCars } from '../services/car.service'
 import { toast } from 'react-toastify'
 import { NavLink } from 'react-router-dom'
@@ -14,7 +14,7 @@ const RideYourBook = () => {
       setIsLoading(true)
       const response = await getAllCars()
       if (!response.success) {
-        toast.error('Unable to fetch cars')
+        //toast.error('Unable to fetch cars')
         return
       }
       setCar(response?.data ?? [])
@@ -30,7 +30,7 @@ const RideYourBook = () => {
     fetchCarImg()
   }, [])
 
-  const carImageUrl = car?.[0]?.carImageUrl || DefaultImage
+  const carImageUrl = car?.[0]?.carImageUrl
 
   return (
     <section
@@ -47,7 +47,7 @@ const RideYourBook = () => {
         overflow: 'hidden',
       }}
     >
-      {/* Decorative background accent */}
+
       <div
         style={{
           position: 'absolute',
@@ -61,9 +61,7 @@ const RideYourBook = () => {
         }}
       />
 
-      {/* Left: Content */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
-        {/* Eyebrow label */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
           <span
             style={{
@@ -86,7 +84,6 @@ const RideYourBook = () => {
           </span>
         </div>
 
-        {/* Heading */}
         <h2
           style={{
             fontFamily: "'Playfair Display', Georgia, serif",
@@ -111,7 +108,6 @@ const RideYourBook = () => {
           </span>
         </h2>
 
-        {/* Body text */}
         <p
           style={{
             fontSize: '1rem',
@@ -125,7 +121,6 @@ const RideYourBook = () => {
           paperwork — just seamless mobility for your everyday needs.
         </p>
 
-        {/* Stats row */}
         <div style={{ display: 'flex', gap: '2.5rem' }}>
           {[
             { value: '500+', label: 'Vehicles' },
@@ -158,7 +153,6 @@ const RideYourBook = () => {
           ))}
         </div>
 
-        {/* CTA button */}
         <NavLink
           to="/cars"
           style={{
@@ -213,7 +207,6 @@ const RideYourBook = () => {
         </NavLink>
       </div>
 
-      {/* Right: Image */}
       <div
         style={{
           position: 'relative',
@@ -223,18 +216,22 @@ const RideYourBook = () => {
           boxShadow: '0 24px 20px -12px rgba(26,26,24,0.5)',
         }}
       >
-        {/* Skeleton loader */}
         {(isLoading || !imageLoaded) && (
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(90deg, #e8e4dc 25%, #f0ece4 50%, #e8e4dc 75%)',
-              backgroundSize: '200% 100%',
-              animation: 'shimmer 1.4s infinite',
-              zIndex: 1,
-            }}
-          />
+          <div>
+            <span className='absolute z-50 m-5 text-sm font-bold text-gray-400 italic'>
+              Starting demo server... This may take up to 60 seconds on the free hosting plan.
+            </span>
+            <div
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(90deg, #e8e4dc 25%, #f0ece4 50%, #e8e4dc 75%)',
+                backgroundSize: '200% 100%',
+                animation: 'shimmer 1.4s infinite',
+                zIndex: 1,
+              }}
+            />
+          </div>
         )}
 
         <img
@@ -251,7 +248,6 @@ const RideYourBook = () => {
           }}
         />
 
-        {/* Gradient overlay for depth */}
         <div
           style={{
             position: 'absolute',
@@ -262,7 +258,6 @@ const RideYourBook = () => {
           }}
         />
 
-        {/* Bottom label badge */}
         <div
           style={{
             position: 'absolute',
@@ -285,7 +280,6 @@ const RideYourBook = () => {
         </div>
       </div>
 
-      {/* Shimmer keyframe */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700;1,800&family=DM+Sans:wght@400;600;700&display=swap');
         @keyframes shimmer {

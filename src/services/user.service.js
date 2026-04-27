@@ -4,7 +4,7 @@ import { API_ROUTES } from "../config/config";
 export const createUser = async (payload) => {
     try {
         const response = await axiosInstance.post(API_ROUTES.USER_SIGNUP, payload, payload instanceof FormData ? { headers: {"Content-Type" : "multipart/form-data"}} : undefined);
-        console.log("createUser() response: ", response);
+        //console.log("createUser() response: ", response);
         return response.data;
     } catch (error) {
         console.log("An Error Occurred at createUser()", error);
@@ -19,7 +19,7 @@ export const createUser = async (payload) => {
 export const loginUser = async (payload) => {
     try {
         const response = await axiosInstance.post(API_ROUTES.USER_LOGIN, payload);
-        console.log("loginUser() response: ", response);
+        //console.log("loginUser() response: ", response);
         return response.data;
     } catch (error) {
         console.log("An Error Occurred at loginUser()", error);
@@ -34,7 +34,7 @@ export const loginUser = async (payload) => {
 export const getUser = async () => {
     try {
         const response = await axiosInstance.get(API_ROUTES.GET_CURRENT_User);
-        console.log("getUser() response: ", response);
+        //console.log("getUser() response: ", response);
         return response.data;
     } catch (error) {
         console.log("An Error Occurred at getUser()", error);

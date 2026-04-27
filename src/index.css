@@ -1,18 +1,24 @@
 @import "tailwindcss";
 
-/* Enable smooth scrolling globally */
 html {
     scroll-behavior: smooth;
 }
 
-/* primary color */
-@theme{
+@theme {
     --color-primary: #BCC2C2;
     --color-footer: #434343;
+
+    /* Shimmer animation */
+    --animate-shimmer: shimmer 1.4s infinite linear;
 }
 
-.Hover{
-    &:hover{
+@keyframes shimmer {
+    0%   { background-position: -700px 0; }
+    100% { background-position:  700px 0; }
+}
+
+.Hover {
+    &:hover {
         scale: 105%;
         transition: all 0.3s ease-in-out;
     }

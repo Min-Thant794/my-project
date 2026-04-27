@@ -4,7 +4,7 @@ import { API_ROUTES } from "../config/config";
 export const getMyBooking =  async () => {
     try {
         const response = await axiosInstance.get(API_ROUTES.GET_MY_BOOKINGS);
-        console.log("getMyBooking() response: ", response);
+        //console.log("getMyBooking() response: ", response);
         return response.data;
     } catch (error) {
         console.log("An Error Occurred at getMyBooking()", error);

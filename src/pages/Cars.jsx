@@ -82,8 +82,8 @@ const Cars = () => {
       const response = await getAllCars(currentPage, itemsPerPage, query, mode, startISO, endISO, filters);
 
       if (!response?.success) {
-        toast.error(response?.message || "Failed to fetch cars");
-        console.error("Failed to fetch cars", { startISO, endISO, response });
+        //toast.error(response?.message || "Failed to fetch cars");
+        //console.error("Failed to fetch cars", { startISO, endISO, response });
         return;
       }
 

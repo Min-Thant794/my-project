@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Carousel from '../components/HomePageCarousel'
-import defaultImage from '../assets/default image.png'
+import defaultImage from '../assets/defaultImage.png'
 import { getCarsByDiscount } from '../services/car.service'
 import CarDetails from '../components/CarDetails'
 import { addDays } from 'date-fns'
@@ -40,7 +40,7 @@ const Deals = () => {
       const response = await getCarsByDiscount({ page: currentPage, limit, q: query, mode });
 
       if (!response?.success) {
-        toast.error(response?.message || "Failed to fetch discounted car");
+        //toast.error(response?.message || "Failed to fetch discounted car");
         return;
       }
 
@@ -51,7 +51,7 @@ const Deals = () => {
       setTotalPages(pages);
     } catch (error) {
       console.log("An Error Occurred at fetchDealCars!", error);
-      toast.error("Unable to fetch discounted car");
+      //toast.error("Unable to fetch discounted car");
     }
   }, [currentPage, limit, mode, query]);
 

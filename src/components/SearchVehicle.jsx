@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
-import defaultImage from '../assets/default image.png'
+import defaultImage from '../assets/defaultImage.png'
+import CarCardSkeleton from './CarCardSkeleton'
 import { FaGreaterThan, FaLessThan } from 'react-icons/fa6'
 
 const SearchVehicle = ({allCars, currentPage, setCurrentPage, totalPages, query, setQuery, mode, setMode, setSelectedCarId}) => {
@@ -52,6 +53,15 @@ const SearchVehicle = ({allCars, currentPage, setCurrentPage, totalPages, query,
             </div>
             )}
             {
+                allCars.length === 0 &&
+                <p className="col-span-full text-center mt-3 text-md font-bold text-gray-400 italic">
+                    Starting demo server… This may take up to 60 seconds on the free hosting plan.
+                </p>
+            }
+            {
+                allCars.length === 0 ?
+                [...Array(9)].map((_, i) => <CarCardSkeleton key={i}/>)
+                :
                 allCars.map((car) => (
                     <div
                     key={car._id}

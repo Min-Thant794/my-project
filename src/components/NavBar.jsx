@@ -5,7 +5,7 @@ import Logo from '../assets/logo.png'
 import Login from '../pages/Login'
 import { useUser } from '../hooks/useUser'
 import UserDetails from './UserDetails'
-import defaultImage from '../assets/default image.png'
+import defaultImage from '../assets/defaultImage.png'
 
 const NavBar = () => {
 
@@ -51,11 +51,6 @@ const NavBar = () => {
           </NavLink>
         ))}
         {
-          authLoading ?
-          <div>
-            Loading...
-          </div>
-          :
           userData ? (
             <div
               onClick={() => setExpandUserIcon(true)}

@@ -3,7 +3,7 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
 import { createUser } from '../services/user.service';
 import { toast } from 'react-toastify';
-import defaultImage from '../assets/default image.png'
+import defaultImage from '../assets/defaultImage.png'
 
 const Signup = ({setIsLoginForm, setClickLogin}) => {
 

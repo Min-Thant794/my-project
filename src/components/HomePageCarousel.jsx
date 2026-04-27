@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { addDays } from 'date-fns';
 import CarDetails from './CarDetails';
 import { useNavigate } from 'react-router-dom';
-import defaultImage from '../assets/default image.png';
+import defaultImage from "../assets/defaultImage.png"
+import HomePageCarouselSkeleton from './HomePageCarouselSkeleton';
 
 const HomePageCarousel = ({allCars = [], clickMode = "modal"}) => {
 
@@ -52,9 +53,9 @@ const HomePageCarousel = ({allCars = [], clickMode = "modal"}) => {
 
   if(slides.length === 0) {
     return (
-      <div className='relative w-7.10 mx-auto mt-5 md:p-5 rounded-md flex flex-col items-center'>
+      <div className='relative w-7/10 mx-auto mt-5 md:p-5 rounded-md flex flex-col items-center'>
         <div className='w-full aspcet-video rounded-3xl overflow-hidden flex items-center justify-center text-gray-500'>
-          No Cars to show
+          <HomePageCarouselSkeleton/>
         </div>
       </div>
     );
@@ -75,7 +76,7 @@ const HomePageCarousel = ({allCars = [], clickMode = "modal"}) => {
               handleSlideClick(car)
             }}
             className="min-w-full h-full relative">
-              <img
+                <img
                 src={car?.carImageUrl || defaultImage}
                 alt={car?.carName || "car"}
                 className="w-full h-full object-cover"

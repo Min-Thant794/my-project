@@ -28,7 +28,7 @@ export const getAllCars = async (
 
     const response = await axiosInstance.get(API_ROUTES.GET_ALL_CARS, { params });
 
-    console.log("Response all car: ", response.data);
+    //console.log("Response all car: ", response.data);
     return response.data;
   } catch (error) {
     return {
@@ -42,10 +42,10 @@ export const getAllCars = async (
 export const getCarById = async (id) => {
     try {
         const response = await axiosInstance.get(`${API_ROUTES.GET_ALL_CARS}/${id}`);
-        console.log("Response getCarById", response);
+        //console.log("Response getCarById", response);
         return response.data;
     } catch (error) {
-        console.log("An Error Occurred at getCarById()", error);
+        //console.log("An Error Occurred at getCarById()", error);
         return {
             success: false,
             message: error.response?.data.message || "Internal Server Error",
@@ -71,10 +71,10 @@ export const getCarsByDiscount = async ({ page = 1, limit = 6, discount, q, mode
 
     const response = await axiosInstance.get(API_ROUTES.GET_CARS_BY_DISCOUNT, { params });
 
-    console.log("getCarsByDiscount() response.data: ", response.data);
+    //console.log("getCarsByDiscount() response.data: ", response.data);
     return response.data;
   } catch (error) {
-    console.log("An Error Occurred at getCarsByDiscount()", error);
+    //console.log("An Error Occurred at getCarsByDiscount()", error);
     return {
       success: false,
       message: error.response?.data?.message || "Internal Server Error",

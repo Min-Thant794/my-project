@@ -3,11 +3,12 @@ import { DateRange } from 'react-date-range';
 import { addDays } from 'date-fns';
 import { cancelMyBooking, getMyBooking, updateMyBooking } from '../services/booking.service'
 import { toast } from 'react-toastify';
+import { NavLink } from 'react-router-dom';
 
 const Booking = () => {
 
   const [myBookings, setMyBookings] = useState([]);
-  const [, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isUpdating, setIsUpdating] = useState(null);
   const [isSelectedFilter, setIsSelectedFilter] = useState("All")
   const minDate = useMemo(() => addDays(new Date(), 1), []);
@@ -44,7 +45,7 @@ const Booking = () => {
       const response = await getMyBooking();
 
       if(!response?.data) {
-        toast.error(response?.message || "Failed to fetch data");
+        //toast.error(response?.message || "Failed to fetch data");
         setMyBookings([]);
         return;
       }
@@ -140,17 +141,48 @@ const Booking = () => {
           </div>
         </div>
         <div className='flex gap-3 justify-end pt-5 items-center'>
-            {filterBooking.map((f) => (
-              <div
-                key={f}
-                onClick={() => setIsSelectedFilter(f)}
-                className={`px-3 py-2 rounded-lg border-2 cursor-pointer
-                  ${isSelectedFilter === f ? "bg-footer text-amber-50" : ""}`}
-              >
-                {f}
-              </div>
-            ))}
+          {filterBooking.map((f) => (
+            <div
+              key={f}
+              onClick={() => setIsSelectedFilter(f)}
+              className={`px-3 py-2 rounded-lg border-2 cursor-pointer
+                ${isSelectedFilter === f ? "bg-footer text-amber-50" : ""}`}
+            >
+              {f}
+            </div>
+          ))}
+        </div>
+
+        {
+          myBookings.length === 0 &&
+          <div className="flex flex-col items-center justify-center py-20 gap-6 text-center">
+            {/* Calendar icon */}
+            <div className="w-20 h-20 rounded-2xl bg-[#d6d6d6] shadow-[0_10px_20px_-5px_rgba(0,0,0,0.15)] flex items-center justify-center">
+              <svg width="40" height="40" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="16" width="52" height="44" rx="6" fill="#c4c4c4" stroke="#a0a0a0" strokeWidth="1.5"/>
+                <rect x="10" y="16" width="52" height="14" rx="6" fill="#b0b0b0" stroke="#a0a0a0" strokeWidth="1.5"/>
+                <rect x="10" y="24" width="52" height="6" fill="#b0b0b0"/>
+                <rect x="22" y="10" width="4" height="12" rx="2" fill="#6b6b6b"/>
+                <rect x="46" y="10" width="4" height="12" rx="2" fill="#6b6b6b"/>
+                <line x1="22" y1="42" x2="50" y2="42" stroke="#a0a0a0" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="4 3"/>
+                <line x1="22" y1="50" x2="42" y2="50" stroke="#a0a0a0" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="4 3"/>
+              </svg>
+            </div>
+            <div className="flex flex-col gap-1">
+              <p className="text-xl font-bold text-footer">No bookings yet</p>
+              <p className="text-sm text-gray-500 max-w-xs leading-relaxed">
+                Your reservations will appear here once you book a car.
+              </p>
+            </div>
+            <NavLink
+              to={"/cars"}
+              className="mt-2 px-6 py-2.5 rounded-full bg-footer text-amber-50 font-semibold text-sm shadow-[0_10px_20px_-5px_rgba(0,0,0,0.3)] shadow-gray-700 hover:opacity-90 active:opacity-65 transition-all cursor-pointer"
+            >
+              Browse Cars
+            </NavLink>
           </div>
+        }
+          
         <div className='w-full flex flex-col'>
           {
             filteredBookings.map((booking) => (

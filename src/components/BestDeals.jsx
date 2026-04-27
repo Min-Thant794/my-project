@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import defaultImage from '../assets/default image.png'
+import defaultImage from '../assets/defaultImage.png'
 import CarDetails from './CarDetails';
 import { getCarById } from '../services/car.service';
 

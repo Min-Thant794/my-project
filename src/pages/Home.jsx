@@ -34,16 +34,16 @@ const Home = () => {
       const response = await getCarsByDiscount({ limit: 6, page: 1});
 
       if(!response) {
-        toast.error("Failed to fetch discounted car");
-        console.log("Failed to fetch discounted car");
+        //toast.error("Failed to fetch discounted car");
+        //console.log("Failed to fetch discounted car");
         return;
       }
       
       setDiscountedCar(response?.data || []);
-      console.log("discounted car response: ", response?.data);
+      //console.log("discounted car response: ", response?.data);
     } catch (error) {
-      console.log("An Error Occurred at fetchDealCars!");
-      toast.error("Unable to fetch discounted car");
+      //console.log("An Error Occurred at fetchDealCars!");
+      //toast.error("Unable to fetch discounted car");
       return error;
     }
   }
